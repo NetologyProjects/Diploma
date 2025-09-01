@@ -1,111 +1,189 @@
 package ru.iteco.fmhandroid.ui;
 
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
-import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
-
-import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ru.iteco.fmhandroid.R;
+import io.qameta.allure.kotlin.Description;
+import ru.iteco.fmhandroid.ui.pageObject.AppBar;
+import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.pageObject.MainPage;
+import ru.iteco.fmhandroid.ui.pageObject.Utils;
+import ru.iteco.fmhandroid.ui.pageObject.WarningError;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class AuthTest {
+    AuthorizationPage authorizationPage = new AuthorizationPage();
+    AppBar appBar = new AppBar();
+    MainPage mainPage = new MainPage();
+    WarningError warningError = new WarningError();
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
 
-    @Test
-    public void authTest() {
-        ViewInteraction textInputEditText = onView(
-                allOf(childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.login_text_input_layout),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textInputEditText.perform(replaceText("login2"), closeSoftKeyboard());
-
-        ViewInteraction textInputEditText2 = onView(
-                allOf(childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.password_text_input_layout),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textInputEditText2.perform(replaceText("password2"), closeSoftKeyboard());
-
-        ViewInteraction textInputEditText3 = onView(
-                allOf(withText("password2"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.password_text_input_layout),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textInputEditText3.perform(pressImeActionButton());
-
-        ViewInteraction materialButton = onView(
-                allOf(withId(R.id.enter_button), withText("Войти"), withContentDescription("Сохранить"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.RelativeLayout")),
-                                        1),
-                                2),
-                        isDisplayed()));
-        materialButton.perform(click());
-
-        ViewInteraction button = onView(
-                allOf(withId(R.id.enter_button), withText("ВОЙТИ"), withContentDescription("Сохранить"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class))),
-                        isDisplayed()));
-        button.check(matches(isDisplayed()));
+    @Before
+    public void setUp() {
+        Espresso.onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 15000));
+        if (mainPage.isDisplayedButtonProfile()) {
+            appBar.logOut();
+        }
     }
 
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
+    @Description("Авторизация с валидными данными")
+    @Test
+    public void successfulAuthorization() {
+        authorizationPage.visibilityElement();
+        authorizationPage.inputInFieldLogin("login2");
+        authorizationPage.inputInFieldPassword("password2");
+        authorizationPage.pressButton();
+        mainPage.checkNews();
+    }
 
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
+    @Description("Авторизация с некорректными данными")
+    @Test
+    public void authorizationFailedLogin() {
+        authorizationPage.inputInFieldLogin("logiiin22");
+        authorizationPage.inputInFieldPassword("passsword22");
+        authorizationPage.pressButton();
+        //mainPage.checkNews();
+        warningError.windowError();
+    }
 
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
+    @Description("Авторизация с пробелами вместо логина")
+    @Test
+    public void authorizationSpacesInLogin() {
+        authorizationPage.inputInFieldLogin(" ");
+        authorizationPage.inputInFieldPassword("password2");
+        authorizationPage.pressButton();
+        authorizationPage.visibilityElement();
+    }
+
+    @Description("Авторизация с пробелами вместо пароля")
+    @Test
+    public void authorizationSpacesInPassword() {
+        authorizationPage.inputInFieldLogin("login2");
+        authorizationPage.inputInFieldPassword(" ");
+        authorizationPage.pressButton();
+        authorizationPage.visibilityElement();
+    }
+
+    @Description("Авторизация с пробелами в полях ввода логина и пароля")
+    @Test
+    public void authorizationSpacesInputsField() {
+        authorizationPage.inputInFieldLogin(" ");
+        authorizationPage.inputInFieldPassword(" ");
+        authorizationPage.pressButton();
+        authorizationPage.visibilityElement();
+    }
+
+    @Description("Авторизация с пустым логином")
+    @Test
+    public void authorizationWithEmptyLogin() {
+        authorizationPage.inputInFieldPassword("password2");
+        authorizationPage.pressButton();
+        authorizationPage.visibilityElement();
+    }
+
+    @Description("Авторизация с пустым паролем")
+    @Test
+    public void authorizationWithEmptyPassword() {
+        authorizationPage.inputInFieldLogin("login2");
+        authorizationPage.pressButton();
+        authorizationPage.visibilityElement();
+    }
+
+    // падает с ошибкой "No views in hierarchy found matching:
+    // an instance of android.widget.TextView and view.getText()
+    // with or without transformation to match: is "Логин и пароль не могут быть пустыми"
+    // возможно, проблема связана с тем, что элемент находится в контейнере, который невидим
+    // Если переключить проверку на вызов метода видимости другого элемента - закомментированную строку - то тест проходит
+    @Description("Авторизация с пустыми полями ввода логина и пароля")
+    @Test
+    public void authorizationWhenEmptyInputFields() {
+        authorizationPage.pressButton();
+        warningError.windowEmptyInputField();
+        //authorizationPage.visibilityElement();
+    }
+
+    // должен упасть, так как здесь ошибка - авторизация с таким методом ввода проходит
+    @Description("Авторизация с пробелом в начале логина")
+    @Test
+    public void authorizationSpaceInBeginningOfLogin() {
+        authorizationPage.inputInFieldLogin(" login2");
+        authorizationPage.inputInFieldPassword("password2");
+        authorizationPage.pressButton();
+        authorizationPage.visibilityElement();
+        warningError.windowError();
+    }
+
+    // должен упасть, так как здесь ошибка - авторизация с таким методом ввода проходит
+    @Description("Авторизация с прбелом в конце логина")
+    @Test
+    public void authorizationSpaceInTheEndOfLogin() {
+        authorizationPage.inputInFieldLogin("login2 ");
+        authorizationPage.inputInFieldPassword("password2");
+        authorizationPage.pressButton();
+        authorizationPage.visibilityElement();
+        warningError.windowError();
+    }
+
+    // должен упасть, так как здесь ошибка - авторизация с таким методом ввода проходит
+    @Description("Авторизация с пробелом в начале пароля")
+    @Test
+    public void authorizationSpaceInBeginningOfPassword() {
+        authorizationPage.inputInFieldLogin("login2");
+        authorizationPage.inputInFieldPassword(" password2");
+        authorizationPage.pressButton();
+        authorizationPage.visibilityElement();
+        warningError.windowError();
+    }
+
+    // должен упасть, так как здесь ошибка - авторизация с таким методом ввода проходит
+    @Description("Авторизация с пробелом в конце пароля")
+    @Test
+    public void authorizationSpaceInTheEndOfPassword() {
+        authorizationPage.inputInFieldLogin("login2");
+        authorizationPage.inputInFieldPassword("password2 ");
+        authorizationPage.pressButton();
+        authorizationPage.visibilityElement();
+        warningError.windowError();
+    }
+
+    @Description("Авторизация. Логин в разном регистре")
+    @Test
+    public void authorizationUsingRegisterInLogin() {
+        authorizationPage.inputInFieldLogin("LOgIn2");
+        authorizationPage.inputInFieldPassword("password2");
+        authorizationPage.pressButton();
+        authorizationPage.visibilityElement();
+    }
+
+    @Description("Авторизация. Пароль разным регистром")
+    @Test
+    public void authorizationUsingRegisterInPassword() {
+        authorizationPage.inputInFieldLogin("login2");
+        authorizationPage.inputInFieldPassword("PAssWOrD2");
+        authorizationPage.pressButton();
+        authorizationPage.visibilityElement();
+    }
+
+    @Description("Ввод спецсимволов в поля ввода логина и пароля")
+    @Test
+    public void usingSpecialSymbolInFields() {
+        authorizationPage.inputInFieldLogin("log#№%@<&?*");
+        authorizationPage.inputInFieldPassword("pas#№%@<&?*");
+        authorizationPage.pressButton();
+        authorizationPage.visibilityElement();
     }
 }
