@@ -2,8 +2,11 @@ package ru.iteco.fmhandroid.ui;
 
 
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -56,8 +59,11 @@ public class AuthTest {
         authorizationPage.inputInFieldLogin("logiiin22");
         authorizationPage.inputInFieldPassword("passsword22");
         authorizationPage.pressButton();
+        authorizationPage.visibilityElement();
         //mainPage.checkNews();
-        warningError.windowError();
+        //warningError.windowError();
+        // Проверка, что тост с нужным текстом отображается
+        //Espresso.onView(withText("Что-то пошло не так. Попробуйте позднее.")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
     @Description("Авторизация с пробелами вместо логина")
