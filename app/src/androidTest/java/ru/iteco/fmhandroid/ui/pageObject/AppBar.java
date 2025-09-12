@@ -53,9 +53,9 @@ public class AppBar {
         logOut.check(matches(isDisplayed())).perform(click());
     }
 
-    @Step("Переход на страницу 'Новости'")
+    @Step("Переход на экран 'Новости'")
     public void switchToNews() {
-        Allure.step("Переход на страницу 'Новости'");
+        Allure.step("Переход на экран 'Новости'");
         buttonMainMenu.check(matches(isDisplayed()));
         buttonMainMenu.perform(click());
         mainMenuNews.check(matches(isDisplayed()));
@@ -63,9 +63,9 @@ public class AppBar {
         onView(isRoot()).perform(Utils.waitDisplayed(newsPage.getContainerNews(), 5000));
     }
 
-    @Step("Переход на страницу 'О приложении'")
+    @Step("Переход на экран 'О приложении'")
     public void AboutApp() {
-        Allure.step("Переход на страницу 'О приложении'");
+        Allure.step("Переход на экран 'О приложении'");
         buttonMainMenu.check(matches(isDisplayed()));
         buttonMainMenu.perform(click());
         mainMenuAboutApp.check(matches(isDisplayed()));
@@ -73,9 +73,9 @@ public class AppBar {
         onView(isRoot()).perform(Utils.waitDisplayed(aboutAppPage.getButtonBack(), 5000));
     }
 
-    @Step("Переход на страницу 'Главная'")
+    @Step("Переход на экран 'Главная'")
     public void pageMain() {
-        Allure.step("Переход на страницу 'Главная'");
+        Allure.step("Переход на экран 'Главная'");
         buttonMainMenu.check(matches(isDisplayed()));
         buttonMainMenu.perform(click());
         mainMenuMain.check(matches(isDisplayed()));
@@ -83,9 +83,9 @@ public class AppBar {
         onView(isRoot()).perform(Utils.waitDisplayed(mainPage.getContainerNews(), 5000));
     }
 
-    @Step("Переход на страницу 'Главное-жить любя'")
+    @Step("Переход на экран 'Главное-жить любя'")
     public void pageOurMission() {
-        Allure.step("Переход на страницу цитат");
+        Allure.step("Переход на экран цитат");
         buttonOurMission.check(matches(isDisplayed()));
         buttonOurMission.perform(click());
         onView(isRoot()).perform(Utils.waitDisplayed(thematicArticle.getTextScreen(), 5000));

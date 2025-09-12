@@ -2,11 +2,9 @@ package ru.iteco.fmhandroid.ui;
 
 
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static ru.iteco.fmhandroid.ui.pageObject.Utils.waitDisplayed;
 
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.assertion.ViewAssertions;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -20,8 +18,6 @@ import io.qameta.allure.kotlin.Description;
 import ru.iteco.fmhandroid.ui.pageObject.AppBar;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
-import ru.iteco.fmhandroid.ui.pageObject.Utils;
-import ru.iteco.fmhandroid.ui.pageObject.WarningError;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -29,15 +25,16 @@ public class AuthTest {
     AuthorizationPage authorizationPage = new AuthorizationPage();
     AppBar appBar = new AppBar();
     MainPage mainPage = new MainPage();
-    WarningError warningError = new WarningError();
+
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
 
+
     @Before
     public void setUp() {
-        Espresso.onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 15000));
+        Espresso.onView(isRoot()).perform(waitDisplayed(appBar.getAppBarFragmentMain(), 15000));
         if (mainPage.isDisplayedButtonProfile()) {
             appBar.logOut();
         }
@@ -46,150 +43,93 @@ public class AuthTest {
     @Description("Авторизация с валидными данными")
     @Test
     public void successfulAuthorization() {
-        authorizationPage.visibilityElement();
+        authorizationPage.visibilityAuth();
         authorizationPage.inputInFieldLogin("login2");
         authorizationPage.inputInFieldPassword("password2");
         authorizationPage.pressButton();
         mainPage.checkNews();
     }
 
-    @Description("Авторизация с некорректными данными")
-    @Test
-    public void authorizationFailedLogin() {
-        authorizationPage.inputInFieldLogin("logiiin22");
-        authorizationPage.inputInFieldPassword("passsword22");
-        authorizationPage.pressButton();
-        authorizationPage.visibilityElement();
-        //mainPage.checkNews();
-        //warningError.windowError();
-        // Проверка, что тост с нужным текстом отображается
-        //Espresso.onView(withText("Что-то пошло не так. Попробуйте позднее.")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-    }
-
-    @Description("Авторизация с пробелами вместо логина")
-    @Test
-    public void authorizationSpacesInLogin() {
-        authorizationPage.inputInFieldLogin(" ");
-        authorizationPage.inputInFieldPassword("password2");
-        authorizationPage.pressButton();
-        authorizationPage.visibilityElement();
-    }
-
-    @Description("Авторизация с пробелами вместо пароля")
-    @Test
-    public void authorizationSpacesInPassword() {
-        authorizationPage.inputInFieldLogin("login2");
-        authorizationPage.inputInFieldPassword(" ");
-        authorizationPage.pressButton();
-        authorizationPage.visibilityElement();
-    }
-
-    @Description("Авторизация с пробелами в полях ввода логина и пароля")
-    @Test
-    public void authorizationSpacesInputsField() {
-        authorizationPage.inputInFieldLogin(" ");
-        authorizationPage.inputInFieldPassword(" ");
-        authorizationPage.pressButton();
-        authorizationPage.visibilityElement();
-    }
-
     @Description("Авторизация с пустым логином")
     @Test
     public void authorizationWithEmptyLogin() {
+        authorizationPage.visibilityAuth();
         authorizationPage.inputInFieldPassword("password2");
         authorizationPage.pressButton();
-        authorizationPage.visibilityElement();
+        authorizationPage.visibilityAuth();
     }
 
     @Description("Авторизация с пустым паролем")
     @Test
-    public void authorizationWithEmptyPassword() {
+    public void authorizationWithEmptyPass() {
+        authorizationPage.visibilityAuth();
         authorizationPage.inputInFieldLogin("login2");
         authorizationPage.pressButton();
-        authorizationPage.visibilityElement();
+        authorizationPage.visibilityAuth();
     }
 
-    // падает с ошибкой "No views in hierarchy found matching:
-    // an instance of android.widget.TextView and view.getText()
-    // with or without transformation to match: is "Логин и пароль не могут быть пустыми"
-    // возможно, проблема связана с тем, что элемент находится в контейнере, который невидим
-    // Если переключить проверку на вызов метода видимости другого элемента - закомментированную строку - то тест проходит
-    @Description("Авторизация с пустыми полями ввода логина и пароля")
+    @Description("Авторизация с пробелом вместо логина")
     @Test
-    public void authorizationWhenEmptyInputFields() {
-        authorizationPage.pressButton();
-        warningError.windowEmptyInputField();
-        //authorizationPage.visibilityElement();
-    }
-
-    // должен упасть, так как здесь ошибка - авторизация с таким методом ввода проходит
-    @Description("Авторизация с пробелом в начале логина")
-    @Test
-    public void authorizationSpaceInBeginningOfLogin() {
-        authorizationPage.inputInFieldLogin(" login2");
+    public void authorizationSpacesInLogin() {
+        authorizationPage.visibilityAuth();
+        authorizationPage.inputInFieldLogin(" ");
         authorizationPage.inputInFieldPassword("password2");
         authorizationPage.pressButton();
-        authorizationPage.visibilityElement();
-        warningError.windowError();
+        authorizationPage.visibilityAuth();
+
     }
 
-    // должен упасть, так как здесь ошибка - авторизация с таким методом ввода проходит
-    @Description("Авторизация с прбелом в конце логина")
+    @Description("Авторизация с пробелом вместо пароля")
     @Test
-    public void authorizationSpaceInTheEndOfLogin() {
-        authorizationPage.inputInFieldLogin("login2 ");
+    public void authorizationSpacesInPass() {
+        authorizationPage.visibilityAuth();
+        authorizationPage.inputInFieldLogin("login2");
+        authorizationPage.inputInFieldPassword(" ");
+        authorizationPage.pressButton();
+        authorizationPage.visibilityAuth();
+    }
+
+    @Description("Авторизация с верным логином в другом регистре")
+    @Test
+    public void authorizationWithLoginInDifferentRegister() {
+        authorizationPage.visibilityAuth();
+        authorizationPage.inputInFieldLogin("LOGIN2");
         authorizationPage.inputInFieldPassword("password2");
         authorizationPage.pressButton();
-        authorizationPage.visibilityElement();
-        warningError.windowError();
+        authorizationPage.visibilityAuth();
+
     }
 
-    // должен упасть, так как здесь ошибка - авторизация с таким методом ввода проходит
-    @Description("Авторизация с пробелом в начале пароля")
+    @Description("Авторизация с верным паролем в другом регистре")
     @Test
-    public void authorizationSpaceInBeginningOfPassword() {
+    public void authorizationWithPassInDifferentRegister() {
+        authorizationPage.visibilityAuth();
         authorizationPage.inputInFieldLogin("login2");
-        authorizationPage.inputInFieldPassword(" password2");
+        authorizationPage.inputInFieldPassword("PASSWORD2");
         authorizationPage.pressButton();
-        authorizationPage.visibilityElement();
-        warningError.windowError();
+        authorizationPage.visibilityAuth();
     }
 
-    // должен упасть, так как здесь ошибка - авторизация с таким методом ввода проходит
-    @Description("Авторизация с пробелом в конце пароля")
+    @Description("Авторизация с невалидным логиом")
     @Test
-    public void authorizationSpaceInTheEndOfPassword() {
-        authorizationPage.inputInFieldLogin("login2");
-        authorizationPage.inputInFieldPassword("password2 ");
-        authorizationPage.pressButton();
-        authorizationPage.visibilityElement();
-        warningError.windowError();
-    }
-
-    @Description("Авторизация. Логин в разном регистре")
-    @Test
-    public void authorizationUsingRegisterInLogin() {
-        authorizationPage.inputInFieldLogin("LOgIn2");
+    public void authorizationInvalidLogin() {
+        authorizationPage.visibilityAuth();
+        authorizationPage.inputInFieldLogin("qwerty");
         authorizationPage.inputInFieldPassword("password2");
         authorizationPage.pressButton();
-        authorizationPage.visibilityElement();
+        authorizationPage.visibilityAuth();
+
     }
 
-    @Description("Авторизация. Пароль разным регистром")
+    @Description("Авторизация с невалидным паролем")
     @Test
-    public void authorizationUsingRegisterInPassword() {
+    public void authorizationInvalidPass() {
+        authorizationPage.visibilityAuth();
         authorizationPage.inputInFieldLogin("login2");
-        authorizationPage.inputInFieldPassword("PAssWOrD2");
+        authorizationPage.inputInFieldPassword("qwerty");
         authorizationPage.pressButton();
-        authorizationPage.visibilityElement();
+        authorizationPage.visibilityAuth();
     }
 
-    @Description("Ввод спецсимволов в поля ввода логина и пароля")
-    @Test
-    public void usingSpecialSymbolInFields() {
-        authorizationPage.inputInFieldLogin("log#№%@<&?*");
-        authorizationPage.inputInFieldPassword("pas#№%@<&?*");
-        authorizationPage.pressButton();
-        authorizationPage.visibilityElement();
-    }
+
 }

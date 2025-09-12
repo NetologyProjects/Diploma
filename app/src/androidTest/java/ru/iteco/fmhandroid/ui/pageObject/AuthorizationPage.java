@@ -24,18 +24,18 @@ public class AuthorizationPage {
     MainPage mainPage = new MainPage();
     AppBar appBar = new AppBar();
 
-    @Step("Ввод в поле логина")
+    @Step("Ввод в поле Логин")
     public void inputInFieldLogin(String login) {
-        Allure.step("Ввод в поле логина");
+        Allure.step("Ввод в поле Логин");
         ViewInteraction inputInFieldLogin = onView(withHint("Логин"));
         // Заменяем предыдущее содержимое поля и вводим новые данные
         inputInFieldLogin.perform(replaceText(login));
         closeSoftKeyboard();
     }
 
-    @Step("Ввод в поле пароля")
+    @Step("Ввод в поле Пароль")
     public void inputInFieldPassword(String password) {
-        Allure.step("Ввод в поле пароля");
+        Allure.step("Ввод в поле Пароль");
         ViewInteraction inputInFieldPassword = onView(withHint("Пароль"));
         // Заменяем предыдущее содержимое поля и вводим новые данные
         inputInFieldPassword.perform(replaceText(password), closeSoftKeyboard());
@@ -53,9 +53,9 @@ public class AuthorizationPage {
         buttonSingIn.perform(click());
     }
 
-    @Step("Видимость на экране 'Авторизация'")
-    public void visibilityElement() {
-        Allure.step("Проверка видимости элемента 'Авторизация'");
+    @Step("Видимость экрана 'Авторизация'")
+    public void visibilityAuth() {
+        Allure.step("Проверка видимости экрана 'Авторизация'");
         ViewInteraction textViewAuth = onView(withText("Авторизация"));
         textViewAuth.check(matches(isDisplayed()));
         textViewAuth.check(matches(withText(endsWith("Авторизация"))));

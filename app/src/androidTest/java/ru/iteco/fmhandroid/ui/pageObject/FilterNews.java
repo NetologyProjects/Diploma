@@ -27,7 +27,6 @@ public class FilterNews {
     private final ViewInteraction checkBoxNotActive = onView(withId(R.id.filter_news_inactive_material_check_box));
     private final ViewInteraction buttonFilter = onView(withId(R.id.filter_button));
     private final ViewInteraction buttonCancel = onView(withId(R.id.cancel_button));
-    // private final ViewInteraction message = onView(withId(android.R.id.message));
     private final int cancel = R.id.cancel_button;
     private final int filter = R.id.filter_button;
     private final int buttonFilterNews = R.id.filter_news_material_button;
