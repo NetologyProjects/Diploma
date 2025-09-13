@@ -80,7 +80,7 @@ public class Utils {
     }
 
     public static String dateInPast() {
-        return LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        return LocalDate.now().minusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 
     public static String dateMore1Years() {

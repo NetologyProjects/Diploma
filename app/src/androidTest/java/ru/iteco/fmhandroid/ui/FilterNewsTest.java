@@ -35,7 +35,6 @@ public class FilterNewsTest {
     MainPage mainPage = new MainPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
 
-    ControlPanelNews controlPanelNews = new ControlPanelNews();
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =

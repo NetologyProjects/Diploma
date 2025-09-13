@@ -45,29 +45,6 @@ public class EditNews {
         editTitle.perform(replaceText(text), closeSoftKeyboard());
     }
 
-    // не использован, так как тесты с редактированием будут падать
-    @Step("Редактирование значения в поле дата")
-    public void editDate(String text) {
-        Allure.step("Редактирование значения в поле дата" + text);
-        editDate.check(matches(isDisplayed()));
-        editDate.perform(replaceText(text), closeSoftKeyboard());
-    }
-
-    // не использован, так как тесты с редактированием будут падать
-    @Step("Редактирование значения в поле время")
-    public void editTime(String text) {
-        Allure.step("Редактирование значения в поле время" + text);
-        editTime.check(matches(isDisplayed()));
-        editTime.perform(replaceText(text), closeSoftKeyboard());
-    }
-
-    // не использован, так как тесты с редактированием будут падать
-    @Step("Редактирование значения в поле описания")
-    public void editDescription(String text) {
-        Allure.step("Редактирование значения в поле описания" + text);
-        editDescription.check(matches(isDisplayed()));
-        editDescription.perform(replaceText(text), closeSoftKeyboard());
-    }
 
     @Step("Нажатие на кнопку 'Сохранить'")
     public void pressSave() {

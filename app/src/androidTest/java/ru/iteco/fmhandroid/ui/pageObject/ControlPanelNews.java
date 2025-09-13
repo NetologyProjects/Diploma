@@ -4,6 +4,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasSibling;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
@@ -48,23 +49,19 @@ public class ControlPanelNews {
     }
 
     @Step("Нажатие на кнопку 'Редактировать новость'")
-    public void pressEditPanelNews() {
+    public void pressEditPanelNews(String title) {
         Allure.step("Нажатие на кнопку 'Редактировать новость'");
-        // Ожидание и проверка видимости иконки редактирования новости
-        onView(isRoot()).perform(Utils.waitDisplayed(buttonEditNews, 5000));
-        ViewInteraction editButton = onView(withId(buttonEditNews));
-        editButton.check(matches(allOf(isDisplayed(), isClickable())));
-        // Клик по элементу
-        editButton.perform(click());
+        onView(allOf(withId(buttonEditNews), hasSibling(withText(title)))).perform(click());
         // Ожидание загрузки формы
         onView(isRoot()).perform(Utils.waitDisplayed(editNews.getButtonSave(), 5000));
     }
 
+
+
     @Step("Нажатие на кнопку удаления новости")
-    public void deleteNews() {
+    public void deleteNews(String title) {
         Allure.step("Нажатие на кнопку удаления новости");
-        onView(withId(buttonDeleteNews)).check(matches(allOf(isDisplayed(), isClickable())));
-        onView(withId(buttonDeleteNews)).perform(click());
+        onView(allOf(withId(buttonDeleteNews), hasSibling(withText(title)))).perform(click());
         buttonOk.check(matches(isDisplayed()));
         buttonOk.perform(click());
     }
@@ -72,10 +69,10 @@ public class ControlPanelNews {
     @Step("Поиск новости с заголовком и проверка ее видимости")
     public void searchNewsAndCheckIsDisplayed(String text) {
         Allure.step("Поиск новости с заголовком и проверка ее видимости");
-        // onView(isRoot()).perform(Utils.waitDisplayed(editNews.getButtonSave(), 2000));
-        ViewInteraction textTitle = onView(allOf(withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-        textTitle.check(matches(isDisplayed()));
-        textTitle.check(matches(withText(endsWith(text))));
+//        ViewInteraction textTitle = onView(allOf(withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+//        textTitle.check(matches(isDisplayed()));
+//        textTitle.check(matches(withText(text)));
+        onView(withText(text)).check(matches(isDisplayed()));
     }
 
     @Step("Проверка отсутствия новости с заголовком")

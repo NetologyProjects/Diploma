@@ -18,7 +18,6 @@ import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
 
 public class CreateNews {
-
     private final ViewInteraction category = onView(withId(R.id.news_item_category_text_auto_complete_text_view));
     private final ViewInteraction title = onView(withId(R.id.news_item_title_text_input_edit_text));
     private final ViewInteraction time = onView(withId(R.id.news_item_publish_time_text_input_edit_text));
@@ -81,4 +80,19 @@ public class CreateNews {
         Allure.step("Проверка, что форма создания новости осталась отображена");
         onView(withId(containerCreateEditNews)).check(matches(isDisplayed()));
     }
+
+
+    @Step("Создание тестовой новости")
+    public void creatingTestNews(String title) {
+        Allure.step("Создание тестовой новости");
+
+        addCategory("Объявление");
+        addTitle(title);
+        String pastDate = Utils.dateMore1Years();
+        addDate(pastDate);
+        addTime("12:34");
+        addDescription("тестовая запись");
+        pressSave();
+    }
+
 }
