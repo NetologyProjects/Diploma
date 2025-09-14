@@ -69,7 +69,6 @@ public class AuthTest {
     public void authorizationWithEmptyLogin() throws InterruptedException {
         authorizationPage.inputInFieldPassword(validPassword);
         authorizationPage.pressButton();
-        Thread.sleep(1500);
         authorizationPage.visibilityAuth();
 
 
