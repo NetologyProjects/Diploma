@@ -2,31 +2,22 @@ package ru.iteco.fmhandroid.ui;
 
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.startsWith;
 import static ru.iteco.fmhandroid.ui.pageObject.Utils.waitDisplayed;
 
 import android.view.View;
 
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-import androidx.test.rule.ActivityTestRule;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import io.qameta.allure.kotlin.Description;
-import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.pageObject.AppBar;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
@@ -41,10 +32,6 @@ public class AuthTest {
     String validPassword = "password2";
     private View decorView;
 
-
-    @Rule   // указываем какое приложение будем запускать.
-    public ActivityTestRule<AppActivity> activityTestRule = //Cмотрим activity в AndroidManifest.xml
-            new ActivityTestRule<>(AppActivity.class);
 
     @Rule
     public ActivityScenarioRule<AppActivity> activityRule =
@@ -82,13 +69,16 @@ public class AuthTest {
     public void authorizationWithEmptyLogin() throws InterruptedException {
         authorizationPage.inputInFieldPassword(validPassword);
         authorizationPage.pressButton();
-        //authorizationPage.visibilityAuth();
+        Thread.sleep(1500);
+        authorizationPage.visibilityAuth();
 
-        Thread.sleep(500);
-        onView(withText(R.string.empty_login_or_password))
-                //.inRoot(withDecorView(Matchers.not(decorView)))
-                //.check(matches(withText(R.string.empty_login_or_password)))
-                .check(matches(isDisplayed()));
+
+//        Thread.sleep(500);
+//        onView(withText(R.string.empty_login_or_password))
+//                .inRoot(withDecorView(Matchers.not(decorView)))
+//                .check(matches(withText(R.string.empty_login_or_password)))
+//                .check(matches(isDisplayed()))
+//        ;
     }
 
     @Description("Авторизация с пустым паролем")

@@ -61,7 +61,7 @@ public class AuthorizationPage {
         Allure.step("Проверка видимости экрана 'Авторизация'");
         ViewInteraction textViewAuth = onView(withText("Авторизация"));
         textViewAuth.check(matches(isDisplayed()));
-        textViewAuth.check(matches(withText(endsWith("Авторизация"))));
+        textViewAuth.check(matches(withText("Авторизация")));
     }
 
     @Step("Успешная авторизация пользователя")
