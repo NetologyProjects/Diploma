@@ -24,6 +24,8 @@ import org.junit.runner.RunWith;
 
 import io.qameta.allure.kotlin.Description;
 import ru.iteco.fmhandroid.R;
+import io.qameta.allure.kotlin.junit4.DisplayName;
+import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.pageObject.AppBar;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
@@ -75,8 +77,6 @@ public class AuthTest {
     public void authorizationWithEmptyLogin() throws InterruptedException {
         authorizationPage.inputInFieldPassword(validPassword);
         authorizationPage.pressButton();
-//        Thread.sleep(1500);
-//        authorizationPage.visibilityAuth();
 
 
         Thread.sleep(100);

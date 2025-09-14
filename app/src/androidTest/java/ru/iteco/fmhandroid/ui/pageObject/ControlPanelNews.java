@@ -72,7 +72,8 @@ public class ControlPanelNews {
 //        ViewInteraction textTitle = onView(allOf(withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 //        textTitle.check(matches(isDisplayed()));
 //        textTitle.check(matches(withText(text)));
-        onView(withText(text)).check(matches(isDisplayed()));
+        onView(withText(text))
+                .check(matches(isDisplayed()));
     }
 
     @Step("Проверка отсутствия новости с заголовком")
