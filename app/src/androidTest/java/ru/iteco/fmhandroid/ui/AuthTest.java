@@ -2,7 +2,11 @@ package ru.iteco.fmhandroid.ui;
 
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static ru.iteco.fmhandroid.ui.pageObject.Utils.waitDisplayed;
 
 import android.view.View;
@@ -12,12 +16,15 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import io.qameta.allure.kotlin.Description;
+import io.qameta.allure.kotlin.junit4.DisplayName;
+import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.pageObject.AppBar;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
@@ -64,20 +71,35 @@ public class AuthTest {
         mainPage.checkNews();
     }
 
+
+    @Test
+    @DisplayName("Авторизация с пустыми полями логина и пароля")
+    public void shouldTryLogInWithEmptyField() throws InterruptedException {
+        authorizationPage.pressButton();
+        authorizationPage.visibilityAuth();
+        Thread.sleep(1000);
+        onView(withText(R.string.empty_login_or_password))
+                .inRoot(withDecorView(Matchers.not(decorView)))
+
+                .check(matches(withText(R.string.empty_login_or_password)))
+                .check(matches(isDisplayed()));
+    }
+
+
     @Description("Авторизация с пустым логином")
     @Test
     public void authorizationWithEmptyLogin() throws InterruptedException {
         authorizationPage.inputInFieldPassword(validPassword);
         authorizationPage.pressButton();
-        authorizationPage.visibilityAuth();
+        //authorizationPage.visibilityAuth();
 
 
-//        Thread.sleep(500);
-//        onView(withText(R.string.empty_login_or_password))
-//                .inRoot(withDecorView(Matchers.not(decorView)))
-//                .check(matches(withText(R.string.empty_login_or_password)))
-//                .check(matches(isDisplayed()))
-//        ;
+        Thread.sleep(500);
+        onView(withText(R.string.empty_login_or_password))
+                .inRoot(withDecorView(Matchers.not(decorView)))
+                .check(matches(withText(R.string.empty_login_or_password)))
+                .check(matches(isDisplayed()))
+        ;
     }
 
     @Description("Авторизация с пустым паролем")
