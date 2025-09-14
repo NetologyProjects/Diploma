@@ -44,9 +44,9 @@ public class AppBar {
 
     public ViewInteraction buttonOurMission = onView(withId(R.id.our_mission_image_button));
 
-    @Step("Выход из приложения")
+    @Step("Выход из аккаунта")
     public void logOut() {
-        Allure.step("Выход из приложения");
+        Allure.step("Выход из аккаунта");
         ViewInteraction buttonProfile = onView(withId(R.id.authorization_image_button));
         buttonProfile.perform(click());
         ViewInteraction logOut = onView(withText("Выйти"));

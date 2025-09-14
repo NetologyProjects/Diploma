@@ -24,6 +24,9 @@ public class AuthorizationPage {
     MainPage mainPage = new MainPage();
     AppBar appBar = new AppBar();
 
+    String validLogin = "login2";
+    String validPassword = "password2";
+
     @Step("Ввод в поле Логин")
     public void inputInFieldLogin(String login) {
         Allure.step("Ввод в поле Логин");
@@ -64,8 +67,8 @@ public class AuthorizationPage {
     @Step("Успешная авторизация пользователя")
     public void successfulAuthorization() {
         Allure.step("Успешная авторизация пользователя");
-        inputInFieldLogin("login2");
-        inputInFieldPassword("password2");
+        inputInFieldLogin(validLogin);
+        inputInFieldPassword(validPassword);
         pressButton();
         onView(isRoot()).perform(Utils.waitDisplayed(appBar.getPressProfile(), 5000));
         mainPage.checkNews();
