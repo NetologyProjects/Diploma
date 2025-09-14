@@ -40,24 +40,24 @@ public class AuthTest {
 
 
     @Rule
-    public ActivityScenarioRule<AppActivity> activityRule =
+    public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
 
     @Before
     public void setUp() {
-        activityRule.getScenario().onActivity(new ActivityScenario.ActivityAction<AppActivity>() {
-            @Override
-            public void perform(AppActivity activity) {
-                decorView = activity.getWindow().getDecorView();
-            }
-        });
-
-
         onView(isRoot()).perform(waitDisplayed(appBar.getAppBarFragmentMain(), 15000));
         if (mainPage.isDisplayedButtonProfile()) {
             appBar.logOut(); //Выход из аккаунта
         }
         authorizationPage.visibilityAuth(); // Проверка видимости экрана 'Авторизация'
+
+
+        mActivityScenarioRule.getScenario().onActivity(new ActivityScenario.ActivityAction<AppActivity>() {
+            @Override
+            public void perform(AppActivity activity) {
+                decorView = activity.getWindow().getDecorView();
+            }
+        });
     }
 
 
@@ -81,22 +81,55 @@ public class AuthTest {
         onView(withText(R.string.empty_login_or_password))
                 .inRoot(withDecorView(Matchers.not(decorView)))
                 .check(matches(withText(R.string.empty_login_or_password)))
-                .check(matches(isDisplayed()))
-        ;
+                .check(matches(isDisplayed()));
     }
 
     @Description("Авторизация с пустым паролем")
     @Test
-    public void authorizationWithEmptyPass() {
+    public void authorizationWithEmptyPass() throws InterruptedException {
         authorizationPage.inputInFieldLogin(validLogin);
         authorizationPage.pressButton();
-        authorizationPage.visibilityAuth();
+
+        Thread.sleep(100);
+        onView(withText(R.string.empty_login_or_password))
+                .inRoot(withDecorView(Matchers.not(decorView)))
+                .check(matches(withText(R.string.empty_login_or_password)))
+                .check(matches(isDisplayed()));
     }
 
     @Description("Авторизация с пробелом вместо логина")
     @Test
     public void authorizationSpacesInLogin() throws InterruptedException {
-        authorizationPage.inputInFieldLogin("y ");
+        authorizationPage.inputInFieldLogin(" ");
+        authorizationPage.inputInFieldPassword(validPassword);
+        authorizationPage.pressButton();
+
+        Thread.sleep(100);
+        onView(withText(R.string.empty_login_or_password))
+                .inRoot(withDecorView(Matchers.not(decorView)))
+                .check(matches(withText(R.string.empty_login_or_password)))
+                .check(matches(isDisplayed()));
+
+    }
+
+    @Description("Авторизация с пробелом вместо пароля")
+    @Test
+    public void authorizationSpacesInPass() throws InterruptedException {
+        authorizationPage.inputInFieldLogin(validLogin);
+        authorizationPage.inputInFieldPassword(" ");
+        authorizationPage.pressButton();
+
+        Thread.sleep(100);
+        onView(withText(R.string.empty_login_or_password))
+                .inRoot(withDecorView(Matchers.not(decorView)))
+                .check(matches(withText(R.string.empty_login_or_password)))
+                .check(matches(isDisplayed()));
+    }
+
+    @Description("Авторизация с верным логином в другом регистре")
+    @Test
+    public void authorizationWithLoginInDifferentRegister() throws InterruptedException {
+        authorizationPage.inputInFieldLogin("LOGIN2");
         authorizationPage.inputInFieldPassword(validPassword);
         authorizationPage.pressButton();
 
@@ -104,56 +137,51 @@ public class AuthTest {
         onView(withText(R.string.error))
                 .inRoot(withDecorView(Matchers.not(decorView)))
                 .check(matches(withText(R.string.error)))
-                .check(matches(isDisplayed()))
-        ;
-
-    }
-
-    @Description("Авторизация с пробелом вместо пароля")
-    @Test
-    public void authorizationSpacesInPass() {
-        authorizationPage.inputInFieldLogin(validLogin);
-        authorizationPage.inputInFieldPassword(" ");
-        authorizationPage.pressButton();
-        authorizationPage.visibilityAuth();
-    }
-
-    @Description("Авторизация с верным логином в другом регистре")
-    @Test
-    public void authorizationWithLoginInDifferentRegister() {
-        authorizationPage.inputInFieldLogin("LOGIN2");
-        authorizationPage.inputInFieldPassword(validPassword);
-        authorizationPage.pressButton();
-        authorizationPage.visibilityAuth();
+                .check(matches(isDisplayed()));
 
     }
 
     @Description("Авторизация с верным паролем в другом регистре")
     @Test
-    public void authorizationWithPassInDifferentRegister() {
+    public void authorizationWithPassInDifferentRegister() throws InterruptedException {
         authorizationPage.inputInFieldLogin(validLogin);
         authorizationPage.inputInFieldPassword("PASSWORD2");
         authorizationPage.pressButton();
-        authorizationPage.visibilityAuth();
+
+        Thread.sleep(100);
+        onView(withText(R.string.error))
+                .inRoot(withDecorView(Matchers.not(decorView)))
+                .check(matches(withText(R.string.error)))
+                .check(matches(isDisplayed()));
     }
 
     @Description("Авторизация с невалидным логиом")
     @Test
-    public void authorizationInvalidLogin() {
+    public void authorizationInvalidLogin() throws InterruptedException {
         authorizationPage.inputInFieldLogin("qwerty");
         authorizationPage.inputInFieldPassword(validPassword);
         authorizationPage.pressButton();
-        authorizationPage.visibilityAuth();
+
+        Thread.sleep(100);
+        onView(withText(R.string.error))
+                .inRoot(withDecorView(Matchers.not(decorView)))
+                .check(matches(withText(R.string.error)))
+                .check(matches(isDisplayed()));
 
     }
 
     @Description("Авторизация с невалидным паролем")
     @Test
-    public void authorizationInvalidPass() {
+    public void authorizationInvalidPass() throws InterruptedException {
         authorizationPage.inputInFieldLogin(validLogin);
         authorizationPage.inputInFieldPassword("qwerty");
         authorizationPage.pressButton();
-        authorizationPage.visibilityAuth();
+
+        Thread.sleep(100);
+        onView(withText(R.string.error))
+                .inRoot(withDecorView(Matchers.not(decorView)))
+                .check(matches(withText(R.string.error)))
+                .check(matches(isDisplayed()));
     }
 
 
