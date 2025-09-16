@@ -3,7 +3,6 @@ package ru.iteco.fmhandroid.ui;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
-import static ru.iteco.fmhandroid.ui.pageObject.Utils.waitDisplayed;
 
 import android.view.View;
 
@@ -18,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import io.qameta.allure.kotlin.Description;
+import ru.iteco.fmhandroid.ui.data.Utils;
 import ru.iteco.fmhandroid.ui.elements.Toast;
 import ru.iteco.fmhandroid.ui.pageObject.AppBar;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
@@ -41,7 +41,7 @@ public class AuthTest {
 
     @Before
     public void setUp() {
-        onView(isRoot()).perform(waitDisplayed(appBar.getAppBarFragmentMain(), 15000));
+        onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 15000));
         if (mainPage.isDisplayedButtonProfile()) {
             appBar.logOut(); //Выход из аккаунта
         }

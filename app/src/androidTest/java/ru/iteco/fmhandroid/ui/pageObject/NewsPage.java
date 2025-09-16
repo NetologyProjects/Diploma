@@ -16,6 +16,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
+import ru.iteco.fmhandroid.ui.data.Utils;
 
 public class NewsPage {
     ControlPanelNews controlPanelNews = new ControlPanelNews();

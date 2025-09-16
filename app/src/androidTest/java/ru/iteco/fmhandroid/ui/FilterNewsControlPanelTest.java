@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Description;
+import ru.iteco.fmhandroid.ui.data.Utils;
 import ru.iteco.fmhandroid.ui.pageObject.AppBar;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.pageObject.ControlPanelNews;
@@ -21,7 +22,6 @@ import ru.iteco.fmhandroid.ui.pageObject.CreateNewsPage;
 import ru.iteco.fmhandroid.ui.pageObject.FilterNews;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
 import ru.iteco.fmhandroid.ui.pageObject.NewsPage;
-import ru.iteco.fmhandroid.ui.pageObject.Utils;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
@@ -65,41 +65,44 @@ public class FilterNewsControlPanelTest {
         filterNews.confirmFilter();
 
         Thread.sleep(100);
-        newsPage.visibilityOfControlPanelLabel();
-        controlPanelNews.searchNewsAndCheckIsDisplayed(title);
+        controlPanelNews.searchNewsWithTitle(title);
 
         controlPanelNews.deleteNews(title);         // Удаление созданной новости
     }
 
-    // тест падает с ошибкой view.getVisibility() was <GONE>
-    @Description("Фильтрация новостей c неактивными чек-боксами")
+    @Description("Фильтрация новостей c неактивным чек-боксом")
     @Test
-    public void filterNewsWithoutCheckBoxes() {
+    public void filterNewsWithoutCheckBoxes() throws InterruptedException {
+        String title = "Test333";
+        String category = "Массаж";
+
         appBar.switchToNews();
         newsPage.switchControlPanelNews();
+        controlPanelNews.addNews();
+        createNewsPage.creatingTestNews(title, category); // Создание тестовой записи
         controlPanelNews.openFormFilterNews();
-        filterNews.addCategoryFilter("Зарплата");
+        filterNews.addCategoryFilter(category);
         filterNews.setDateFromFilter(Utils.currentDate());
         filterNews.setDateToFilter(Utils.currentDate());
-        filterNews.setCheckBoxActive();
-        filterNews.setCheckBoxNotActive();
+        filterNews.setCheckBoxActive(); // Изменить чекбокс (отключить активные)
         filterNews.confirmFilter();
-        newsPage.visibilityOfControlPanelLabel();
-    }
 
-    @Description("Фильтрация новостей c пустой формой")
-    @Test
-    public void filterNewsEmptyForm() {
-        appBar.switchToNews();
-        newsPage.switchControlPanelNews();
+        // Поиск новости в неактивных (должно быть ненайдено)
+        Thread.sleep(100);
+        controlPanelNews.checkDoesNotExistNews(title);
+
         controlPanelNews.openFormFilterNews();
-        filterNews.addCategoryFilter("");
-        filterNews.setDateFromFilter("");
-        filterNews.setDateToFilter("");
-        filterNews.setCheckBoxActive();
-        filterNews.setCheckBoxNotActive();
+        filterNews.addCategoryFilter(category);
+        filterNews.setDateFromFilter(Utils.currentDate());
+        filterNews.setDateToFilter(Utils.currentDate());
+        filterNews.setCheckBoxInActive(); // Изменить чекбокс (отключить неактивные)
         filterNews.confirmFilter();
-        newsPage.visibilityOfControlPanelLabel();
+
+        // Поиск новости в активных (должно быть найдено)
+        Thread.sleep(100);
+        controlPanelNews.searchNewsWithTitle(title);
+
+        controlPanelNews.deleteNews(title);         // Удаление созданной новости
     }
 
 }

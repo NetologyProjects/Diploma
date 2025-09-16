@@ -8,14 +8,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import static ru.iteco.fmhandroid.ui.pageObject.Utils.waitDisplayed;
-
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewInteraction;
 
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
+import ru.iteco.fmhandroid.ui.data.Utils;
 
 public class MainPage {
     private final int containerNews = R.id.container_list_news_include_on_fragment_main;
@@ -30,7 +29,7 @@ public class MainPage {
     @Step("Проверка видимости 'Новости'")
     public void checkNews() {
         Allure.step("Проверка видимости элемента с текстом Новости");
-        onView(isRoot()).perform(waitDisplayed(containerNews, 5000)); //проверка с ожиданием 5 сек.
+        onView(isRoot()).perform(Utils.waitDisplayed(containerNews, 5000)); //проверка с ожиданием 5 сек.
 
         textViewNewsOnPageMain.check(matches(withText("Новости")));
     }

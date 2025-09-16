@@ -14,6 +14,7 @@ import androidx.test.espresso.ViewInteraction;
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
+import ru.iteco.fmhandroid.ui.data.Utils;
 
 public class AppBar {
     AboutAppPage aboutAppPage = new AboutAppPage();
@@ -47,10 +48,8 @@ public class AppBar {
     @Step("Выход из аккаунта")
     public void logOut() {
         Allure.step("Выход из аккаунта");
-        ViewInteraction buttonProfile = onView(withId(R.id.authorization_image_button));
-        buttonProfile.perform(click());
-        ViewInteraction logOut = onView(withText("Выйти"));
-        logOut.check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.authorization_image_button)).perform(click());
+        onView(withText("Выйти")).check(matches(isDisplayed())).perform(click());
     }
 
     @Step("Переход на экран 'Новости'")

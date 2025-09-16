@@ -11,7 +11,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static ru.iteco.fmhandroid.ui.pageObject.Utils.waitDisplayed;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
@@ -19,6 +18,7 @@ import androidx.test.espresso.action.ViewActions;
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
+import ru.iteco.fmhandroid.ui.data.Utils;
 
 public class ControlPanelNews {
     CreateNewsPage createNewsPage = new CreateNewsPage();
@@ -43,7 +43,7 @@ public class ControlPanelNews {
         // Клик по элементу
         onView(withId(buttonAddNews)).perform(click());
         // Ожидаем загрузку формы
-        onView(isRoot()).perform(waitDisplayed(createNewsPage.getButtonSave(), 5000));
+        onView(isRoot()).perform(Utils.waitDisplayed(createNewsPage.getButtonSave(), 5000));
     }
 
     @Step("Нажатие на кнопку фильтрации новостей")
@@ -75,9 +75,10 @@ public class ControlPanelNews {
         buttonOk.perform(click());
     }
 
-    @Step("Поиск новости с заголовком и проверка ее видимости")
-    public void searchNewsAndCheckIsDisplayed(String text) {
-        Allure.step("Поиск новости с заголовком и проверка ее видимости");//
+    @Step("Поиск новости по заголовку")
+    public void searchNewsWithTitle(String text) {
+        Allure.step("Поиск новости по заголовку");//
+        onView(isRoot()).perform(Utils.waitDisplayed(enterButton, 5000));
         onView(withText(text)).check(matches(isDisplayed()));
     }
 

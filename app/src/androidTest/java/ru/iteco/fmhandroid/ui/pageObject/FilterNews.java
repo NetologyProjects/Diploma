@@ -10,13 +10,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static ru.iteco.fmhandroid.ui.pageObject.Utils.waitDisplayed;
 
 import androidx.test.espresso.ViewInteraction;
 
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
+import ru.iteco.fmhandroid.ui.data.Utils;
 
 public class FilterNews {
     // Поля для поиска элементов
@@ -24,7 +24,7 @@ public class FilterNews {
     private final ViewInteraction dataFrom = onView(withId(R.id.news_item_publish_date_start_text_input_edit_text));
     private final ViewInteraction dataTo = onView(withId(R.id.news_item_publish_date_end_text_input_edit_text));
     private final ViewInteraction checkBoxActive = onView(withId(R.id.filter_news_active_material_check_box));
-    private final ViewInteraction checkBoxNotActive = onView(withId(R.id.filter_news_inactive_material_check_box));
+    private final ViewInteraction checkBoxInActive = onView(withId(R.id.filter_news_inactive_material_check_box));
     private final ViewInteraction buttonFilter = onView(withId(R.id.filter_button));
     private final ViewInteraction buttonCancel = onView(withId(R.id.cancel_button));
     private final int cancel = R.id.cancel_button;
@@ -71,14 +71,14 @@ public class FilterNews {
     }
 
     @Step("Снятие чек-бокса 'Не активная'")
-    public void setCheckBoxNotActive() {
-        checkBoxNotActive.perform(click());
+    public void setCheckBoxInActive() {
+        checkBoxInActive.perform(click());
     }
 
     @Step("Подтверждение фильтрации")
     public void confirmFilter() {
         Allure.step("Нажать на кнопку 'Фильтровать");
-        onView(isRoot()).perform(waitDisplayed(filter, 10000));
+        onView(isRoot()).perform(Utils.waitDisplayed(filter, 10000));
         buttonFilter.check(matches(isDisplayed()));
         buttonFilter.perform(click());
     }
@@ -86,7 +86,7 @@ public class FilterNews {
     @Step("Отмена фильтрации")
     public void cancelFilter() {
         Allure.step("Нажать на кнопку 'Отменить'");
-        onView(isRoot()).perform(waitDisplayed(cancel, 10000));
+        onView(isRoot()).perform(Utils.waitDisplayed(cancel, 10000));
         buttonCancel.check(matches(isDisplayed()));
         buttonCancel.perform(click());
     }

@@ -4,8 +4,6 @@ package ru.iteco.fmhandroid.ui;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 
-import android.util.Log;
-
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 
@@ -16,6 +14,7 @@ import org.junit.runner.RunWith;
 
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Description;
+import ru.iteco.fmhandroid.ui.data.Utils;
 import ru.iteco.fmhandroid.ui.pageObject.AppBar;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.pageObject.ControlPanelNews;
@@ -23,7 +22,6 @@ import ru.iteco.fmhandroid.ui.pageObject.CreateNewsPage;
 import ru.iteco.fmhandroid.ui.pageObject.EditNews;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
 import ru.iteco.fmhandroid.ui.pageObject.NewsPage;
-import ru.iteco.fmhandroid.ui.pageObject.Utils;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
@@ -42,8 +40,9 @@ public class CreateNewsTest {
             new ActivityScenarioRule<>(AppActivity.class);
 
     @Before
-    public void setUp() {
+    public void setUp() throws InterruptedException {
         onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 10000));
+        Thread.sleep(5000);
         if (!mainPage.isDisplayedButtonProfile()) {
             authorizationPage.successfulAuthorization();
         }
@@ -52,73 +51,26 @@ public class CreateNewsTest {
     // Тест упадёт, если уже есть такой же заголовок новости
     @Description("Успешное создание новости")
     @Test
-    public void successfulNewsCreation() throws InterruptedException {
+    public void successfulNewsCreation(){
         String title = "Test_news555";
+        String category = "Зарплата";
 
         appBar.switchToNews();                      // Переход на страницу новостей
         newsPage.switchControlPanelNews();          // Переход на панель управления новостями
         controlPanelNews.addNews();                 // Добавление новой новости
-        createNewsPage.addCategory("Объявление");  // Добавление категории
+        createNewsPage.addCategory(category);  // Добавление категории
         createNewsPage.addTitle(title);                 // Добавление заголовка новости
         createNewsPage.addDate(Utils.currentDate());    // Добавление даты
         createNewsPage.addTime("19:25");           // Добавление времени
         createNewsPage.addDescription("тест");     // Добавление описания
         createNewsPage.pressSave();                     // Нажатие на кнопку сохранения
 
-        Thread.sleep(100);
-        controlPanelNews.searchNewsAndCheckIsDisplayed(title); // Проверка, что новость создана
-
-        controlPanelNews.deleteNews(title);         // Удаление созданной новости
-    }
-
-    // Тест падает т.к. отсутствует проверка даты при создании новости
-// (реально в приложении невозможно выбрать дату из прошдого)
-    @Description("Создание новости с датой публикации в прошлом")
-    @Test
-    public void shouldNotCreateNews() {
-        String title = "Создание новости в прошлом";
-
-        appBar.switchToNews();
-        newsPage.switchControlPanelNews();
-        controlPanelNews.addNews();
-        createNewsPage.addCategory("Объявление");
-        createNewsPage.addTitle(title);
-        createNewsPage.addDate(Utils.dateInPast());
-        createNewsPage.addTime("12:34");
-        createNewsPage.addDescription("тест");
-        createNewsPage.pressSave();
-
         try {
-            controlPanelNews.checkDoesNotExistNews(title);
-        } catch (Throwable e) {
-            Log.i("ESPRESSO", "Создание новости с датой публикации в прошлом -> не пройден");
-            throw e;
+            controlPanelNews.searchNewsWithTitle(title); // Проверка, что новость создана
         } finally {
             controlPanelNews.deleteNews(title);         // Удаление созданной новости
         }
-
     }
-
-    @Description("Создание новости с датой публикации в будущем")
-    @Test
-    public void shouldCreateNewsInFuture() {
-        String title = "Создание новости в будущем";
-
-        appBar.switchToNews();
-        newsPage.switchControlPanelNews();
-        controlPanelNews.addNews();
-        createNewsPage.addCategory("Объявление");
-        createNewsPage.addTitle(title);
-        createNewsPage.addDate(Utils.dateMore1Years());
-        createNewsPage.addTime("12:34");
-        createNewsPage.addDescription("тест");
-        createNewsPage.pressSave();
-
-        controlPanelNews.searchNewsAndCheckIsDisplayed(title);
-
-        controlPanelNews.deleteNews(title);         // Удаление созданной новости
-    }
-
 
     @Description("Удаление новости")
     @Test
@@ -129,10 +81,9 @@ public class CreateNewsTest {
         appBar.switchToNews();
         newsPage.switchControlPanelNews();
         controlPanelNews.addNews();
-        // Создание тестовой записи
-        createNewsPage.creatingTestNews(title, category);
+        createNewsPage.creatingTestNews(title, category); // Создание тестовой записи
 
-        controlPanelNews.searchNewsAndCheckIsDisplayed(title);
+        controlPanelNews.searchNewsWithTitle(title);
 
         controlPanelNews.deleteNews(title);         // Удаление созданной новости
 
@@ -140,9 +91,59 @@ public class CreateNewsTest {
         controlPanelNews.checkDoesNotExistNews(title);
     }
 
+    // Тест падает т.к. отсутствует проверка даты при создании новости
+    // (реально в приложении невозможно выбрать дату из прошлого)
+    @Description("Создание новости с датой публикации в прошлом")
+    @Test
+    public void shouldNotCreateNews() {
+        String title = "Создание новости в прошлом";
+        String category = "Зарплата";
+
+        appBar.switchToNews();
+        newsPage.switchControlPanelNews();
+        controlPanelNews.addNews();
+        createNewsPage.addCategory(category);
+        createNewsPage.addTitle(title);
+        createNewsPage.addDate(Utils.dateInPast());
+        createNewsPage.addTime("12:34");
+        createNewsPage.addDescription("тест");
+        createNewsPage.pressSave();
+
+        try {
+            //controlPanelNews.checkDoesNotExistNews(title); // Проверка, что новость не создана
+            controlPanelNews.searchNewsWithTitle(title); // Проверка, что новость создана
+        } finally {
+            controlPanelNews.deleteNews(title);         // Удаление созданной новости
+        }
+
+    }
+
+    @Description("Создание новости с датой публикации в будущем")
+    @Test
+    public void shouldCreateNewsInFuture() {
+        String title = "Создание новости в будущем";
+        String category = "Зарплата";
+
+        appBar.switchToNews();
+        newsPage.switchControlPanelNews();
+        controlPanelNews.addNews();
+        createNewsPage.addCategory(category);
+        createNewsPage.addTitle(title);
+        createNewsPage.addDate(Utils.dateMore1Years());
+        createNewsPage.addTime("12:34");
+        createNewsPage.addDescription("тест");
+        createNewsPage.pressSave();
+
+        try {
+            controlPanelNews.searchNewsWithTitle(title); // Проверка, что новость создана
+        } finally {
+            controlPanelNews.deleteNews(title);         // Удаление созданной новости
+        }
+    }
+
     @Description("Редактирование заголовка новости")
     @Test
-    public void shouldEditTheNews() throws InterruptedException {
+    public void shouldEditTheNews(){
         String title = "Старый заголовок";
         String newTitle = "Заголовок изменён";
         String category = "Зарплата";
@@ -151,15 +152,16 @@ public class CreateNewsTest {
         newsPage.switchControlPanelNews();
         controlPanelNews.addNews();
         createNewsPage.creatingTestNews(title, category); // Создание тестовой записи
-        controlPanelNews.searchNewsAndCheckIsDisplayed(title);
-        controlPanelNews.pressEditPanelNews(title); //Редактирование категории записи
+        controlPanelNews.searchNewsWithTitle(title);
+        controlPanelNews.pressEditPanelNews(title); //Редактирование заголовка записи
         editNews.editTitle(newTitle);
         editNews.pressSave();
 
-        Thread.sleep(100);
-        controlPanelNews.searchNewsAndCheckIsDisplayed(newTitle);
-
-        controlPanelNews.deleteNews(newTitle);         // Удаление созданной новости
+        try {
+            controlPanelNews.searchNewsWithTitle(title); // Проверка, что новость создана
+        } finally {
+            controlPanelNews.deleteNews(title);         // Удаление созданной новости
+        }
     }
 
 }

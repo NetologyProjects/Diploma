@@ -19,6 +19,7 @@ import androidx.test.espresso.ViewInteraction;
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
+import ru.iteco.fmhandroid.ui.data.Utils;
 
 public class AuthorizationPage {
     MainPage mainPage = new MainPage();
@@ -26,6 +27,8 @@ public class AuthorizationPage {
 
     String validLogin = "login2";
     String validPassword = "password2";
+    int enterButton = R.id.enter_button;
+    public ViewInteraction buttonSingIn = onView(withId(enterButton));
 
     @Step("Ввод в поле Логин")
     public void inputInFieldLogin(String login) {
@@ -51,7 +54,6 @@ public class AuthorizationPage {
     @Step("Нажатие на кнопку входа")
     public void pressButton() {
         Allure.step("Нажатие на кнопку входа");
-        ViewInteraction buttonSingIn = onView(withId(R.id.enter_button));
         buttonSingIn.check(matches(isDisplayed()));
         buttonSingIn.perform(click());
     }
@@ -67,6 +69,7 @@ public class AuthorizationPage {
     @Step("Успешная авторизация пользователя")
     public void successfulAuthorization() {
         Allure.step("Успешная авторизация пользователя");
+        onView(isRoot()).perform(Utils.waitDisplayed(enterButton, 5000));
         inputInFieldLogin(validLogin);
         inputInFieldPassword(validPassword);
         pressButton();

@@ -18,11 +18,11 @@ import org.junit.runner.RunWith;
 
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Description;
+import ru.iteco.fmhandroid.ui.data.Utils;
 import ru.iteco.fmhandroid.ui.pageObject.AppBar;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
 import ru.iteco.fmhandroid.ui.pageObject.NewsPage;
-import ru.iteco.fmhandroid.ui.pageObject.Utils;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)

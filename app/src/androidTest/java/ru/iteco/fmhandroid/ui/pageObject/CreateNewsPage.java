@@ -9,13 +9,13 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static ru.iteco.fmhandroid.ui.pageObject.Utils.waitDisplayed;
 
 import androidx.test.espresso.ViewInteraction;
 
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
+import ru.iteco.fmhandroid.ui.data.Utils;
 
 public class CreateNewsPage {
     private final ViewInteraction category = onView(withId(R.id.news_item_category_text_auto_complete_text_view));
@@ -70,7 +70,7 @@ public class CreateNewsPage {
     @Step("Нажатие на кнопку 'Сохранить'")
     public void pressSave() {
         Allure.step("Нажатие на кнопку 'Сохранить'");
-        onView(isRoot()).perform(waitDisplayed(buttonSave, 5000));
+        onView(isRoot()).perform(Utils.waitDisplayed(buttonSave, 5000));
         save.check(matches(isDisplayed()));
         save.perform(scrollTo()).perform(click());
     }
