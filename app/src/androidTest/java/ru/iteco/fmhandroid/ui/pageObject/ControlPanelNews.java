@@ -8,22 +8,20 @@ import static androidx.test.espresso.matcher.ViewMatchers.hasSibling;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
-import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.endsWith;
 import static ru.iteco.fmhandroid.ui.pageObject.Utils.waitDisplayed;
 
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.espresso.action.ViewActions;
 
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
 
 public class ControlPanelNews {
-    CreateNews createNews = new CreateNews();
+    CreateNewsPage createNewsPage = new CreateNewsPage();
     EditNews editNews = new EditNews();
     FilterNews filterNews = new FilterNews();
 
@@ -31,8 +29,8 @@ public class ControlPanelNews {
     private final int buttonAddNews = R.id.add_news_image_view;
     private final int buttonEditNews = R.id.edit_news_item_image_view;
     private final int buttonDeleteNews = R.id.delete_news_item_image_view;
+    private final int buttonFilterNews = R.id.filter_news_material_button;
     private final ViewInteraction buttonOk = onView(withId(android.R.id.button1));
-
     public int getButtonAddNews() {
         return buttonAddNews;
     }
@@ -45,7 +43,18 @@ public class ControlPanelNews {
         // Клик по элементу
         onView(withId(buttonAddNews)).perform(click());
         // Ожидаем загрузку формы
-        onView(isRoot()).perform(waitDisplayed(createNews.getButtonSave(), 5000));
+        onView(isRoot()).perform(waitDisplayed(createNewsPage.getButtonSave(), 5000));
+    }
+
+    @Step("Нажатие на кнопку фильтрации новостей")
+    public void openFormFilterNews() {
+        Allure.step("Нажатие на кнопку фильтрации новостей");
+        // Проверяем, что элемент видим и можно на него нажать
+        onView(withId(buttonFilterNews)).check(matches(allOf(isDisplayed(), isClickable())));
+        // Клик по элементу
+        onView(withId(buttonFilterNews)).perform(ViewActions.click());
+        // Ожидание загрузки формы
+        onView(isRoot()).perform(Utils.waitDisplayed(filterNews.getFilter(), 5000));
     }
 
     @Step("Нажатие на кнопку 'Редактировать новость'")
@@ -68,12 +77,8 @@ public class ControlPanelNews {
 
     @Step("Поиск новости с заголовком и проверка ее видимости")
     public void searchNewsAndCheckIsDisplayed(String text) {
-        Allure.step("Поиск новости с заголовком и проверка ее видимости");
-//        ViewInteraction textTitle = onView(allOf(withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-//        textTitle.check(matches(isDisplayed()));
-//        textTitle.check(matches(withText(text)));
-        onView(withText(text))
-                .check(matches(isDisplayed()));
+        Allure.step("Поиск новости с заголовком и проверка ее видимости");//
+        onView(withText(text)).check(matches(isDisplayed()));
     }
 
     @Step("Проверка отсутствия новости с заголовком")

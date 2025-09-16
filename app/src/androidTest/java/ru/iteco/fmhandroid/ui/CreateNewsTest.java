@@ -2,18 +2,10 @@ package ru.iteco.fmhandroid.ui;
 
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.hasSibling;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.hamcrest.Matchers.allOf;
+import android.util.Log;
 
-import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 
@@ -24,13 +16,11 @@ import org.junit.runner.RunWith;
 
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Description;
-import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.pageObject.AppBar;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.pageObject.ControlPanelNews;
-import ru.iteco.fmhandroid.ui.pageObject.CreateNews;
+import ru.iteco.fmhandroid.ui.pageObject.CreateNewsPage;
 import ru.iteco.fmhandroid.ui.pageObject.EditNews;
-import ru.iteco.fmhandroid.ui.pageObject.FilterNews;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
 import ru.iteco.fmhandroid.ui.pageObject.NewsPage;
 import ru.iteco.fmhandroid.ui.pageObject.Utils;
@@ -43,10 +33,9 @@ public class CreateNewsTest {
     MainPage mainPage = new MainPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     ControlPanelNews controlPanelNews = new ControlPanelNews();
-    CreateNews createNews = new CreateNews();
+    CreateNewsPage createNewsPage = new CreateNewsPage();
     EditNews editNews = new EditNews();
     NewsPage newsPage = new NewsPage();
-    FilterNews filterNews = new FilterNews();
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -60,36 +49,29 @@ public class CreateNewsTest {
         }
     }
 
-    // Тест упадёт, если есть такой же заголовок новости
+    // Тест упадёт, если уже есть такой же заголовок новости
     @Description("Успешное создание новости")
     @Test
-    public void successfulNewsCreation() {
-        String title = "Test_news444";
+    public void successfulNewsCreation() throws InterruptedException {
+        String title = "Test_news555";
 
-        // Переход на страницу новостей
-        appBar.switchToNews();
-        // Переход на панель управления новостями
-        newsPage.switchControlPanelNews();
-        // Добавление новой новости
-        controlPanelNews.addNews();
-        // Добавление категории
-        createNews.addCategory("Объявление");
-        // Добавление заголовка новости
-        createNews.addTitle(title);
-        // Добавление даты
-        createNews.addDate(Utils.currentDate());
-        // Добавление времени
-        createNews.addTime("19:25");
-        // Добавление описания
-        createNews.addDescription("тест");
-        // Нажатие на кнопку сохранения
-        createNews.pressSave();
-        // Проверяем, что новость создана
-        controlPanelNews.searchNewsAndCheckIsDisplayed(title);
-        // Удаляем созданную новость
-        controlPanelNews.deleteNews(title);
+        appBar.switchToNews();                      // Переход на страницу новостей
+        newsPage.switchControlPanelNews();          // Переход на панель управления новостями
+        controlPanelNews.addNews();                 // Добавление новой новости
+        createNewsPage.addCategory("Объявление");  // Добавление категории
+        createNewsPage.addTitle(title);                 // Добавление заголовка новости
+        createNewsPage.addDate(Utils.currentDate());    // Добавление даты
+        createNewsPage.addTime("19:25");           // Добавление времени
+        createNewsPage.addDescription("тест");     // Добавление описания
+        createNewsPage.pressSave();                     // Нажатие на кнопку сохранения
+
+        Thread.sleep(100);
+        controlPanelNews.searchNewsAndCheckIsDisplayed(title); // Проверка, что новость создана
+
+        controlPanelNews.deleteNews(title);         // Удаление созданной новости
     }
-// Тест падает т.к. отсутствует проверка даты при создании новости
+
+    // Тест падает т.к. отсутствует проверка даты при создании новости
 // (реально в приложении невозможно выбрать дату из прошдого)
     @Description("Создание новости с датой публикации в прошлом")
     @Test
@@ -99,36 +81,42 @@ public class CreateNewsTest {
         appBar.switchToNews();
         newsPage.switchControlPanelNews();
         controlPanelNews.addNews();
-        createNews.addCategory("Объявление");
-        createNews.addTitle(title);
-        String pastDate = Utils.dateInPast();
-        createNews.addDate(pastDate);
-        createNews.addTime("12:34");
-        createNews.addDescription("тест");
-        createNews.pressSave();
-        controlPanelNews.checkDoesNotExistNews(title);
-        // Удаляем созданную новость
-        controlPanelNews.deleteNews(title);
+        createNewsPage.addCategory("Объявление");
+        createNewsPage.addTitle(title);
+        createNewsPage.addDate(Utils.dateInPast());
+        createNewsPage.addTime("12:34");
+        createNewsPage.addDescription("тест");
+        createNewsPage.pressSave();
+
+        try {
+            controlPanelNews.checkDoesNotExistNews(title);
+        } catch (Throwable e) {
+            Log.i("ESPRESSO", "Создание новости с датой публикации в прошлом -> не пройден");
+            throw e;
+        } finally {
+            controlPanelNews.deleteNews(title);         // Удаление созданной новости
+        }
+
     }
 
     @Description("Создание новости с датой публикации в будущем")
     @Test
-    public void shouldCreateTneNewsInFuture() {
+    public void shouldCreateNewsInFuture() {
         String title = "Создание новости в будущем";
 
         appBar.switchToNews();
         newsPage.switchControlPanelNews();
         controlPanelNews.addNews();
-        createNews.addCategory("Объявление");
-        createNews.addTitle(title);
-        String pastDate = Utils.dateMore1Years();
-        createNews.addDate(pastDate);
-        createNews.addTime("12:34");
-        createNews.addDescription("тест");
-        createNews.pressSave();
+        createNewsPage.addCategory("Объявление");
+        createNewsPage.addTitle(title);
+        createNewsPage.addDate(Utils.dateMore1Years());
+        createNewsPage.addTime("12:34");
+        createNewsPage.addDescription("тест");
+        createNewsPage.pressSave();
+
         controlPanelNews.searchNewsAndCheckIsDisplayed(title);
-        // Удаляем созданную новость
-        controlPanelNews.deleteNews(title);
+
+        controlPanelNews.deleteNews(title);         // Удаление созданной новости
     }
 
 
@@ -136,63 +124,42 @@ public class CreateNewsTest {
     @Test
     public void shouldDeleteNews() throws InterruptedException {
         String title = "Новость должна быть удалена";
-
-        appBar.switchToNews();
-        newsPage.switchControlPanelNews();
-        controlPanelNews.addNews();
-        // Создание тестовой записи
-        createNews.creatingTestNews(title);
-        controlPanelNews.searchNewsAndCheckIsDisplayed(title);
-        // Удаляем созданную новость
-        controlPanelNews.deleteNews(title);
-        Thread.sleep(1000);
-        controlPanelNews.checkDoesNotExistNews(title);
-    }
-
-    // тест аналогично падает с ошибкой AmbiguousViewMatcherException
-    // тест пытается взаимодействовать с элементом интерфейса (значок редактирования),
-    // который имеет несколько экземпляров в иерархии представлений
-    // тест не знает какой именно элемент использовать, так как у них одинаковые идентификаторы
-    @Description("Редактирование категории новости")
-    @Test
-    public void shouldEditCategoryOfNews() throws InterruptedException {
-        String title = "Тест655";
         String category = "Зарплата";
 
         appBar.switchToNews();
         newsPage.switchControlPanelNews();
         controlPanelNews.addNews();
         // Создание тестовой записи
-        createNews.creatingTestNews(title);
+        createNewsPage.creatingTestNews(title, category);
+
         controlPanelNews.searchNewsAndCheckIsDisplayed(title);
-        //Редактирование категории записи
-        controlPanelNews.pressEditPanelNews(title);
-        editNews.editCategory(category);
-        editNews.pressSave();
-        Thread.sleep(2000);
-//        //Фильтрация записей по категории
-//        filterNews.addCategoryFilter(category);
-//        filterNews.confirmFilter();
-        //Проверка наличия тестовой записи в выбранной категории
-        Thread.sleep(2000);
-//        controlPanelNews.searchNewsAndCheckIsDisplayed(title);
-        onView(allOf(withId(R.id.news_item_title_text_view), withText("Тест669"),
-                        withParent(withParent(withId(R.id.news_item_material_card_view))),
-                        isDisplayed()))
-        .check(matches(withText("Тест669")));
+
+        controlPanelNews.deleteNews(title);         // Удаление созданной новости
+
+        Thread.sleep(100);
+        controlPanelNews.checkDoesNotExistNews(title);
     }
 
-    // все ПОСЛЕДУЮЩИЕ тесты, связанные с редактированием, будут также падать
-    // причина - та же. На примере с редактированием заголовка:
     @Description("Редактирование заголовка новости")
     @Test
-    public void shouldEditTheNews() {
+    public void shouldEditTheNews() throws InterruptedException {
+        String title = "Старый заголовок";
+        String newTitle = "Заголовок изменён";
+        String category = "Зарплата";
+
         appBar.switchToNews();
         newsPage.switchControlPanelNews();
-        controlPanelNews.searchNewsAndCheckIsDisplayed("Создание новости в будущем");
-        controlPanelNews.pressEditPanelNews("ttt");
-        editNews.editTitle("Crocodile");
+        controlPanelNews.addNews();
+        createNewsPage.creatingTestNews(title, category); // Создание тестовой записи
+        controlPanelNews.searchNewsAndCheckIsDisplayed(title);
+        controlPanelNews.pressEditPanelNews(title); //Редактирование категории записи
+        editNews.editTitle(newTitle);
         editNews.pressSave();
+
+        Thread.sleep(100);
+        controlPanelNews.searchNewsAndCheckIsDisplayed(newTitle);
+
+        controlPanelNews.deleteNews(newTitle);         // Удаление созданной новости
     }
 
 }

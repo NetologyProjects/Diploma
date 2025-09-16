@@ -16,6 +16,7 @@ import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Description;
 import ru.iteco.fmhandroid.ui.pageObject.AppBar;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.pageObject.ControlPanelNews;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
 import ru.iteco.fmhandroid.ui.pageObject.NewsPage;
 import ru.iteco.fmhandroid.ui.pageObject.ThematicArticle;
@@ -30,6 +31,7 @@ public class NewsPageTest {
     NewsPage newsPage = new NewsPage();
     AppBar appBar = new AppBar();
     MainPage mainPage = new MainPage();
+    ControlPanelNews controlPanelNews = new ControlPanelNews();
 
     ThematicArticle thematicArticle = new ThematicArticle();
 
@@ -56,7 +58,7 @@ public class NewsPageTest {
     @Test
     public void openFormFilterNews() {
         appBar.switchToNews();
-        newsPage.openFormFilterNews();
+        controlPanelNews.openFormFilterNews();
     }
 
     @Description("Открытие раздела 'Панель управления'")

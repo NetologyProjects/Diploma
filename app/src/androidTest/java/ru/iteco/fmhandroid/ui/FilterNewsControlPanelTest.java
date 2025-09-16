@@ -16,6 +16,8 @@ import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Description;
 import ru.iteco.fmhandroid.ui.pageObject.AppBar;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.pageObject.ControlPanelNews;
+import ru.iteco.fmhandroid.ui.pageObject.CreateNewsPage;
 import ru.iteco.fmhandroid.ui.pageObject.FilterNews;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
 import ru.iteco.fmhandroid.ui.pageObject.NewsPage;
@@ -30,6 +32,8 @@ public class FilterNewsControlPanelTest {
     NewsPage newsPage = new NewsPage();
     MainPage mainPage = new MainPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
+    CreateNewsPage createNewsPage = new CreateNewsPage();
+    ControlPanelNews controlPanelNews = new ControlPanelNews();
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -46,15 +50,25 @@ public class FilterNewsControlPanelTest {
     // тест падает с ошибкой view.getVisibility() was <GONE>
     @Description("Фильтрация новостей с активными чек-боксами")
     @Test
-    public void filterNewsByValidDateAndCheckBoxes() {
+    public void filterNewsWithCheckBoxes() throws InterruptedException {
+        String title = "Test222";
+        String category = "Массаж";
+
         appBar.switchToNews();
         newsPage.switchControlPanelNews();
-        newsPage.openFormFilterNews();
-        filterNews.addCategoryFilter("Объявление");
+        controlPanelNews.addNews();
+        createNewsPage.creatingTestNews(title, category); // Создание тестовой записи
+        controlPanelNews.openFormFilterNews();
+        filterNews.addCategoryFilter(category);
         filterNews.setDateFromFilter(Utils.currentDate());
         filterNews.setDateToFilter(Utils.currentDate());
         filterNews.confirmFilter();
+
+        Thread.sleep(100);
         newsPage.visibilityOfControlPanelLabel();
+        controlPanelNews.searchNewsAndCheckIsDisplayed(title);
+
+        controlPanelNews.deleteNews(title);         // Удаление созданной новости
     }
 
     // тест падает с ошибкой view.getVisibility() was <GONE>
@@ -63,7 +77,7 @@ public class FilterNewsControlPanelTest {
     public void filterNewsWithoutCheckBoxes() {
         appBar.switchToNews();
         newsPage.switchControlPanelNews();
-        newsPage.openFormFilterNews();
+        controlPanelNews.openFormFilterNews();
         filterNews.addCategoryFilter("Зарплата");
         filterNews.setDateFromFilter(Utils.currentDate());
         filterNews.setDateToFilter(Utils.currentDate());
@@ -78,7 +92,7 @@ public class FilterNewsControlPanelTest {
     public void filterNewsEmptyForm() {
         appBar.switchToNews();
         newsPage.switchControlPanelNews();
-        newsPage.openFormFilterNews();
+        controlPanelNews.openFormFilterNews();
         filterNews.addCategoryFilter("");
         filterNews.setDateFromFilter("");
         filterNews.setDateToFilter("");

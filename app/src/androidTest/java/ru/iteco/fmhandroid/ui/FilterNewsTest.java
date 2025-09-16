@@ -34,6 +34,7 @@ public class FilterNewsTest {
     NewsPage newsPage = new NewsPage();
     MainPage mainPage = new MainPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
+    ControlPanelNews controlPanelNews = new ControlPanelNews();
 
 
     @Rule
@@ -54,7 +55,7 @@ public class FilterNewsTest {
         //Переход на экран новостей
         appBar.switchToNews();
         //Нажатие на кнопку фильтровать(Открытие формы фильтрации)
-        newsPage.openFormFilterNews();
+        controlPanelNews.openFormFilterNews();
         // Список категорий
         List<String> categories = Arrays.asList(
                 "День рождения",
@@ -76,7 +77,7 @@ public class FilterNewsTest {
     @Test
     public void filterNewsEmptyForm() {
         appBar.switchToNews();
-        newsPage.openFormFilterNews();
+        controlPanelNews.openFormFilterNews();
         filterNews.addCategoryFilter("");
         filterNews.setDateFromFilter("");
         filterNews.setDateToFilter("");
@@ -88,7 +89,7 @@ public class FilterNewsTest {
     @Test
     public void filterNewsValidDate() {
         appBar.switchToNews();
-        newsPage.openFormFilterNews();
+        controlPanelNews.openFormFilterNews();
         filterNews.addCategoryFilter("День рождения");
         filterNews.setDateFromFilter(Utils.currentDate());
         filterNews.setDateToFilter(Utils.currentDate());
@@ -100,7 +101,7 @@ public class FilterNewsTest {
     @Test
     public void filterNewsOnlyCategory() {
         appBar.switchToNews();
-        newsPage.openFormFilterNews();
+        controlPanelNews.openFormFilterNews();
         filterNews.addCategoryFilter("Зарплата");
         filterNews.confirmFilter();
         newsPage.checkNews();
@@ -110,7 +111,7 @@ public class FilterNewsTest {
     @Test
     public void filterNewsByCategoryAndDateFrom() {
         appBar.switchToNews();
-        newsPage.openFormFilterNews();
+        controlPanelNews.openFormFilterNews();
         filterNews.addCategoryFilter("День рождения");
         filterNews.setDateFromFilter(Utils.currentDate());
         filterNews.confirmFilter();
@@ -121,7 +122,7 @@ public class FilterNewsTest {
     @Test
     public void filterNewsByCategoryAndDateTo() {
         appBar.switchToNews();
-        newsPage.openFormFilterNews();
+        controlPanelNews.openFormFilterNews();
         filterNews.addCategoryFilter("День рождения");
         filterNews.setDateToFilter(Utils.currentDate());
         filterNews.confirmFilter();
@@ -132,7 +133,7 @@ public class FilterNewsTest {
     @Test
     public void filterNewsByDatePeriod() {
         appBar.switchToNews();
-        newsPage.openFormFilterNews();
+        controlPanelNews.openFormFilterNews();
         filterNews.setDateFromFilter(Utils.currentDate());
         filterNews.setDateToFilter(Utils.currentDate());
         filterNews.confirmFilter();
@@ -143,7 +144,7 @@ public class FilterNewsTest {
     @Test
     public void filterNewsValidPeriod() {
         appBar.switchToNews();
-        newsPage.openFormFilterNews();
+        controlPanelNews.openFormFilterNews();
         filterNews.addCategoryFilter("День рождения");
         filterNews.setDateFromFilter(Utils.dateMore1Years());
         filterNews.setDateToFilter(Utils.currentDate());
@@ -155,7 +156,7 @@ public class FilterNewsTest {
     @Test
     public void filterNewsDateInPast() {
         appBar.switchToNews();
-        newsPage.openFormFilterNews();
+        controlPanelNews.openFormFilterNews();
         filterNews.addCategoryFilter("День рождения");
         filterNews.setDateFromFilter(Utils.dateMore1Month());
         filterNews.setDateToFilter(Utils.dateMore1Month());
@@ -168,7 +169,7 @@ public class FilterNewsTest {
     @Test
     public void shouldCheckErrorWithInvalidDates() {
         appBar.switchToNews();
-        newsPage.openFormFilterNews();
+        controlPanelNews.openFormFilterNews();
         filterNews.addCategoryFilter("День рождения");
         filterNews.setDateFromFilter(Utils.dateMore1Month());
         filterNews.setDateToFilter(Utils.dateInPast());
@@ -180,7 +181,7 @@ public class FilterNewsTest {
     @Test
     public void filterNewsCancel() {
         appBar.switchToNews();
-        newsPage.openFormFilterNews();
+        controlPanelNews.openFormFilterNews();
         filterNews.addCategoryFilter("День рождения");
         filterNews.setDateFromFilter(Utils.currentDate());
         filterNews.setDateToFilter(Utils.currentDate());
