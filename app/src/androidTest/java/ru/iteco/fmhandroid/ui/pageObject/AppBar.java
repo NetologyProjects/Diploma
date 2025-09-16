@@ -41,9 +41,11 @@ public class AppBar {
 
     public ViewInteraction mainMenuMain = onView(
             allOf(withId(android.R.id.title), withText("Главная")));
-    public ViewInteraction buttonMainMenu = onView(withId(R.id.main_menu_image_button));
+    //public ViewInteraction buttonMainMenu = onView(withId(R.id.main_menu_image_button));
+    public ViewInteraction buttonMainMenu = onView(isRoot()).perform(Utils.waitDisplayed(R.id.main_menu_image_button, 5000));
 
-    public ViewInteraction buttonOurMission = onView(withId(R.id.our_mission_image_button));
+    //public ViewInteraction buttonOurMission = onView(withId(R.id.our_mission_image_button));
+    public ViewInteraction buttonOurMission = onView(isRoot()).perform(Utils.waitDisplayed(R.id.our_mission_image_button, 5000));
 
     @Step("Выход из аккаунта")
     public void logOut() {

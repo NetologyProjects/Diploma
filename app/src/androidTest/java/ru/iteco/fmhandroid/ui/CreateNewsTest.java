@@ -40,13 +40,13 @@ public class CreateNewsTest {
             new ActivityScenarioRule<>(AppActivity.class);
 
     @Before
-    public void setUp() throws InterruptedException {
+    public void setUp(){
         onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 10000));
-        Thread.sleep(5000);
         if (!mainPage.isDisplayedButtonProfile()) {
             authorizationPage.successfulAuthorization();
         }
     }
+
 
     // Тест упадёт, если уже есть такой же заголовок новости
     @Description("Успешное создание новости")

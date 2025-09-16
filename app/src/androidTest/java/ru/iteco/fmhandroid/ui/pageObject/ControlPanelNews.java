@@ -43,7 +43,7 @@ public class ControlPanelNews {
         // Клик по элементу
         onView(withId(buttonAddNews)).perform(click());
         // Ожидаем загрузку формы
-        onView(isRoot()).perform(Utils.waitDisplayed(createNewsPage.getButtonSave(), 5000));
+        onView(isRoot()).perform(Utils.waitDisplayed(createNewsPage.getButtonSave(), 10000));
     }
 
     @Step("Нажатие на кнопку фильтрации новостей")
@@ -54,7 +54,7 @@ public class ControlPanelNews {
         // Клик по элементу
         onView(withId(buttonFilterNews)).perform(ViewActions.click());
         // Ожидание загрузки формы
-        onView(isRoot()).perform(Utils.waitDisplayed(filterNews.getFilter(), 5000));
+        onView(isRoot()).perform(Utils.waitDisplayed(filterNews.getFilter(), 10000));
     }
 
     @Step("Нажатие на кнопку 'Редактировать новость'")
@@ -62,7 +62,7 @@ public class ControlPanelNews {
         Allure.step("Нажатие на кнопку 'Редактировать новость'");
         onView(allOf(withId(buttonEditNews), hasSibling(withText(title)))).perform(click());
         // Ожидание загрузки формы
-        onView(isRoot()).perform(Utils.waitDisplayed(editNews.getButtonSave(), 5000));
+        onView(isRoot()).perform(Utils.waitDisplayed(editNews.getButtonSave(), 10000));
     }
 
 
@@ -78,7 +78,6 @@ public class ControlPanelNews {
     @Step("Поиск новости по заголовку")
     public void searchNewsWithTitle(String text) {
         Allure.step("Поиск новости по заголовку");//
-        onView(isRoot()).perform(Utils.waitDisplayed(enterButton, 5000));
         onView(withText(text)).check(matches(isDisplayed()));
     }
 

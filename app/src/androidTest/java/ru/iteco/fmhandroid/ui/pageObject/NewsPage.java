@@ -20,18 +20,12 @@ import ru.iteco.fmhandroid.ui.data.Utils;
 
 public class NewsPage {
     ControlPanelNews controlPanelNews = new ControlPanelNews();
-//    FilterNews filterNewsPage = new FilterNews();
     private final int buttonSortingNews = R.id.sort_news_material_button;
     private final int buttonControlPanelNews = R.id.edit_news_material_button;
     private final int containerPageNews = R.id.container_list_news_include;
     public ViewInteraction textViewNewsOnPageNews = onView(withText("Новости"));
-//    private final int buttonFilterNews = R.id.filter_news_material_button;
 
     private final int containerControlPanel = R.id.layout_background_image_view;
-
-//    public int getButtonFilterNews() {
-//        return buttonFilterNews;
-//    }
 
     public int getContainerNews() {
         return containerPageNews;
@@ -53,28 +47,18 @@ public class NewsPage {
         onView(withId(buttonSortingNews)).perform(ViewActions.click());
     }
 
-//    @Step("Нажатие на кнопку фильтрации новостей")
-//    public void openFormFilterNews() {
-//        Allure.step("Нажатие на кнопку фильтрации новостей");
-//        // Проверяем, что элемент видим и можно на него нажать
-//        onView(withId(buttonFilterNews)).check(matches(allOf(isDisplayed(), isClickable())));
-//        // Клик по элементу
-//        onView(withId(buttonFilterNews)).perform(ViewActions.click());
-//        // Ожидание загрузки формы
-//        onView(isRoot()).perform(Utils.waitDisplayed(filterNewsPage.getFilter(), 5000));
-//    }
 
     @Step("Переход на 'Панель управления'")
     public void switchControlPanelNews() {
         Allure.step("Переход на 'Панель управления'");
         //  Переход на страницу с панелью управления
-        onView(isRoot()).perform(Utils.waitDisplayed(buttonControlPanelNews, 5000));
+        onView(isRoot()).perform(Utils.waitDisplayed(buttonControlPanelNews, 10000));
         // Проверяем, что элемент видно и что можно нажать
         onView(withId(buttonControlPanelNews)).check(matches(allOf(isDisplayed(), isClickable())));
         // Клик по элементу
         onView(withId(buttonControlPanelNews)).perform(ViewActions.click());
         // Ожидаем загрузку панели управления
-        onView(isRoot()).perform(Utils.waitDisplayed(controlPanelNews.getButtonAddNews(), 5000));
+        onView(isRoot()).perform(Utils.waitDisplayed(controlPanelNews.getButtonAddNews(), 10000));
     }
 
     @Step("Проверка видимости элемента с текстом 'Панель управления'")
