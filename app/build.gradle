@@ -7,6 +7,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.firebase.crashlytics'
+
 }
 
 android {
@@ -45,6 +46,7 @@ android {
             buildConfigField "String", "BASE_URL", '"https://students.netoservices.ru/qamid-diplom-backend/"'
         }
     }
+
 }
 
 dependencies {

@@ -78,7 +78,6 @@ public class ControlPanelNews {
     @Step("Поиск новости по заголовку")
     public void searchNewsWithTitle(String text) {
         Allure.step("Поиск новости по заголовку");//
-        onView(isRoot()).perform(Utils.waitDisplayed(enterButton, 5000));
         onView(withText(text)).check(matches(isDisplayed()));
     }
 

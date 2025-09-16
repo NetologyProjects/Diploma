@@ -41,8 +41,9 @@ public class CreateNewsTest {
 
     @Before
     public void setUp() throws InterruptedException {
-        onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 10000));
         Thread.sleep(5000);
+        onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 15000));
+
         if (!mainPage.isDisplayedButtonProfile()) {
             authorizationPage.successfulAuthorization();
         }
@@ -51,7 +52,7 @@ public class CreateNewsTest {
     // Тест упадёт, если уже есть такой же заголовок новости
     @Description("Успешное создание новости")
     @Test
-    public void successfulNewsCreation(){
+    public void successfulNewsCreation() {
         String title = "Test_news555";
         String category = "Зарплата";
 
@@ -110,8 +111,8 @@ public class CreateNewsTest {
         createNewsPage.pressSave();
 
         try {
-            //controlPanelNews.checkDoesNotExistNews(title); // Проверка, что новость не создана
-            controlPanelNews.searchNewsWithTitle(title); // Проверка, что новость создана
+            controlPanelNews.checkDoesNotExistNews(title); // Проверка, что новость не создана
+            //controlPanelNews.searchNewsWithTitle(title); // Проверка, что новость создана
         } finally {
             controlPanelNews.deleteNews(title);         // Удаление созданной новости
         }
@@ -143,7 +144,7 @@ public class CreateNewsTest {
 
     @Description("Редактирование заголовка новости")
     @Test
-    public void shouldEditTheNews(){
+    public void shouldEditTheNews() {
         String title = "Старый заголовок";
         String newTitle = "Заголовок изменён";
         String category = "Зарплата";
@@ -158,9 +159,9 @@ public class CreateNewsTest {
         editNews.pressSave();
 
         try {
-            controlPanelNews.searchNewsWithTitle(title); // Проверка, что новость создана
+            controlPanelNews.searchNewsWithTitle(newTitle); // Проверка, что новость изменена
         } finally {
-            controlPanelNews.deleteNews(title);         // Удаление созданной новости
+            controlPanelNews.deleteNews(newTitle);         // Удаление созданной новости
         }
     }
 

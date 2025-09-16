@@ -30,6 +30,7 @@ public class CreateNewsPage {
     public int getButtonSave() {
         return buttonSave;
     }
+    ControlPanelNews controlPanelNews = new ControlPanelNews();
 
     @Step("Ввод в поле категории")
     public void addCategory(String text) {
@@ -73,6 +74,8 @@ public class CreateNewsPage {
         onView(isRoot()).perform(Utils.waitDisplayed(buttonSave, 5000));
         save.check(matches(isDisplayed()));
         save.perform(scrollTo()).perform(click());
+        // Ожидаем загрузку панели управления
+        //onView(isRoot()).perform(Utils.waitDisplayed(controlPanelNews.getButtonAddNews(), 5000));
     }
 
     @Step("Проверка, что осталась открыта форма 'Создания новости'")
