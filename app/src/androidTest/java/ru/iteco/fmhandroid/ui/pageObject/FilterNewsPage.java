@@ -18,7 +18,7 @@ import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.data.Utils;
 
-public class FilterNews {
+public class FilterNewsPage {
     // Поля для поиска элементов
     private final ViewInteraction category = onView(withId(R.id.news_item_category_text_auto_complete_text_view));
     private final ViewInteraction dataFrom = onView(withId(R.id.news_item_publish_date_start_text_input_edit_text));
@@ -29,23 +29,15 @@ public class FilterNews {
     private final ViewInteraction buttonCancel = onView(withId(R.id.cancel_button));
     private final int cancel = R.id.cancel_button;
     private final int filter = R.id.filter_button;
-    private final int buttonFilterNews = R.id.filter_news_material_button;
-
-    // ID элементов
     private final int element = R.id.empty_news_list_text_view;
-
     private final int message = android.R.id.message;
-
-    public int getCancel() {
-        return cancel;
-    }
 
     public int getFilter() {
         return filter;
     }
 
     @Step("Установка категории фильтра")
-    public void addCategoryFilter(String text) {
+    public void setCategoryFilter(String text) {
         Allure.step("Установка категории " + text);
         category.check(matches(isDisplayed()));
         category.perform(replaceText(text), closeSoftKeyboard());

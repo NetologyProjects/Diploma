@@ -15,11 +15,11 @@ import org.junit.runner.RunWith;
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Description;
 import ru.iteco.fmhandroid.ui.data.Utils;
-import ru.iteco.fmhandroid.ui.pageObject.AppBar;
+import ru.iteco.fmhandroid.ui.pageObject.AppBarPage;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
-import ru.iteco.fmhandroid.ui.pageObject.ControlPanelNews;
+import ru.iteco.fmhandroid.ui.pageObject.ControlPanelPage;
 import ru.iteco.fmhandroid.ui.pageObject.CreateNewsPage;
-import ru.iteco.fmhandroid.ui.pageObject.EditNews;
+import ru.iteco.fmhandroid.ui.pageObject.EditNewsPage;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
 import ru.iteco.fmhandroid.ui.pageObject.NewsPage;
 
@@ -27,12 +27,12 @@ import ru.iteco.fmhandroid.ui.pageObject.NewsPage;
 @RunWith(AllureAndroidJUnit4.class)
 public class CreateNewsTest {
 
-    AppBar appBar = new AppBar();
+    AppBarPage appBarPage = new AppBarPage();
     MainPage mainPage = new MainPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
-    ControlPanelNews controlPanelNews = new ControlPanelNews();
+    ControlPanelPage controlPanelPage = new ControlPanelPage();
     CreateNewsPage createNewsPage = new CreateNewsPage();
-    EditNews editNews = new EditNews();
+    EditNewsPage editNewsPage = new EditNewsPage();
     NewsPage newsPage = new NewsPage();
 
     @Rule
@@ -41,7 +41,7 @@ public class CreateNewsTest {
 
     @Before
     public void setUp() {
-        onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 15000));
+        onView(isRoot()).perform(Utils.waitDisplayed(appBarPage.getAppBarFragmentMain(), 15000));
         if (!mainPage.isDisplayedButtonProfile()) {
             authorizationPage.successfulAuthorization();
         }
@@ -54,9 +54,9 @@ public class CreateNewsTest {
         String title = "Test_news555";
         String category = "Зарплата";
 
-        appBar.switchToNews();                      // Переход на страницу новостей
+        appBarPage.switchToNews();                      // Переход на страницу новостей
         newsPage.switchControlPanelNews();          // Переход на панель управления новостями
-        controlPanelNews.addNews();                 // Добавление новой новости
+        controlPanelPage.addNews();                 // Добавление новой новости
         createNewsPage.addCategory(category);  // Добавление категории
         createNewsPage.addTitle(title);                 // Добавление заголовка новости
         createNewsPage.addDate(Utils.currentDate());    // Добавление даты
@@ -65,9 +65,9 @@ public class CreateNewsTest {
         createNewsPage.pressSave();                     // Нажатие на кнопку сохранения
 
         try {
-            controlPanelNews.searchNewsWithTitle(title); // Проверка, что новость создана
+            controlPanelPage.searchNewsWithTitle(title); // Проверка, что новость создана
         } finally {
-            controlPanelNews.deleteNews(title);         // Удаление созданной новости
+            controlPanelPage.deleteNews(title);         // Удаление созданной новости
         }
     }
 
@@ -77,17 +77,17 @@ public class CreateNewsTest {
         String title = "Новость должна быть удалена";
         String category = "Зарплата";
 
-        appBar.switchToNews();
+        appBarPage.switchToNews();
         newsPage.switchControlPanelNews();
-        controlPanelNews.addNews();
+        controlPanelPage.addNews();
         createNewsPage.creatingTestNews(title, category); // Создание тестовой записи
 
-        controlPanelNews.searchNewsWithTitle(title);
+        controlPanelPage.searchNewsWithTitle(title);
 
-        controlPanelNews.deleteNews(title);         // Удаление созданной новости
+        controlPanelPage.deleteNews(title);         // Удаление созданной новости
 
         Thread.sleep(100);
-        controlPanelNews.checkDoesNotExistNews(title);
+        controlPanelPage.checkDoesNotExistNews(title);
     }
 
     // Тест падает т.к. отсутствует проверка даты при создании новости
@@ -98,9 +98,9 @@ public class CreateNewsTest {
         String title = "Создание новости в прошлом";
         String category = "Зарплата";
 
-        appBar.switchToNews();
+        appBarPage.switchToNews();
         newsPage.switchControlPanelNews();
-        controlPanelNews.addNews();
+        controlPanelPage.addNews();
         createNewsPage.addCategory(category);
         createNewsPage.addTitle(title);
         createNewsPage.addDate(Utils.dateInPast());
@@ -109,10 +109,10 @@ public class CreateNewsTest {
         createNewsPage.pressSave();
 
         try {
-            //controlPanelNews.checkDoesNotExistNews(title); // Проверка, что новость не создана
-            controlPanelNews.searchNewsWithTitle(title); // Проверка, что новость создана
+            controlPanelPage.checkDoesNotExistNews(title); // Проверка, что новость не создана
+            //controlPanelPage.searchNewsWithTitle(title); // Проверка, что новость создана
         } finally {
-            controlPanelNews.deleteNews(title);         // Удаление созданной новости
+            controlPanelPage.deleteNews(title);         // Удаление созданной новости
         }
 
     }
@@ -123,9 +123,9 @@ public class CreateNewsTest {
         String title = "Создание новости в будущем";
         String category = "Зарплата";
 
-        appBar.switchToNews();
+        appBarPage.switchToNews();
         newsPage.switchControlPanelNews();
-        controlPanelNews.addNews();
+        controlPanelPage.addNews();
         createNewsPage.addCategory(category);
         createNewsPage.addTitle(title);
         createNewsPage.addDate(Utils.dateMore1Years());
@@ -134,9 +134,9 @@ public class CreateNewsTest {
         createNewsPage.pressSave();
 
         try {
-            controlPanelNews.searchNewsWithTitle(title); // Проверка, что новость создана
+            controlPanelPage.searchNewsWithTitle(title); // Проверка, что новость создана
         } finally {
-            controlPanelNews.deleteNews(title);         // Удаление созданной новости
+            controlPanelPage.deleteNews(title);         // Удаление созданной новости
         }
     }
 
@@ -147,19 +147,19 @@ public class CreateNewsTest {
         String newTitle = "Заголовок изменён";
         String category = "Зарплата";
 
-        appBar.switchToNews();
+        appBarPage.switchToNews();
         newsPage.switchControlPanelNews();
-        controlPanelNews.addNews();
+        controlPanelPage.addNews();
         createNewsPage.creatingTestNews(title, category); // Создание тестовой записи
-        controlPanelNews.searchNewsWithTitle(title);
-        controlPanelNews.pressEditPanelNews(title); //Редактирование заголовка записи
-        editNews.editTitle(newTitle);
-        editNews.pressSave();
+        controlPanelPage.searchNewsWithTitle(title);
+        controlPanelPage.pressEditPanelNews(title); //Редактирование заголовка записи
+        editNewsPage.editTitle(newTitle);
+        editNewsPage.pressSave();
 
         try {
-            controlPanelNews.searchNewsWithTitle(newTitle); // Проверка, что новость изменена
+            controlPanelPage.searchNewsWithTitle(newTitle); // Проверка, что новость изменена
         } finally {
-            controlPanelNews.deleteNews(newTitle);         // Удаление созданной новости
+            controlPanelPage.deleteNews(newTitle);         // Удаление созданной новости
         }
     }
 

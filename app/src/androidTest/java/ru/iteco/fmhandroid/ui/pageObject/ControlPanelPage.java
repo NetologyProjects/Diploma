@@ -20,10 +20,10 @@ import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.data.Utils;
 
-public class ControlPanelNews {
+public class ControlPanelPage {
     CreateNewsPage createNewsPage = new CreateNewsPage();
-    EditNews editNews = new EditNews();
-    FilterNews filterNews = new FilterNews();
+    EditNewsPage editNewsPage = new EditNewsPage();
+    FilterNewsPage filterNewsPage = new FilterNewsPage();
 
     // Объявление идентификаторов кнопок
     private final int buttonAddNews = R.id.add_news_image_view;
@@ -31,6 +31,7 @@ public class ControlPanelNews {
     private final int buttonDeleteNews = R.id.delete_news_item_image_view;
     private final int buttonFilterNews = R.id.filter_news_material_button;
     private final ViewInteraction buttonOk = onView(withId(android.R.id.button1));
+
     public int getButtonAddNews() {
         return buttonAddNews;
     }
@@ -54,7 +55,7 @@ public class ControlPanelNews {
         // Клик по элементу
         onView(withId(buttonFilterNews)).perform(ViewActions.click());
         // Ожидание загрузки формы
-        onView(isRoot()).perform(Utils.waitDisplayed(filterNews.getFilter(), 5000));
+        onView(isRoot()).perform(Utils.waitDisplayed(filterNewsPage.getFilter(), 5000));
     }
 
     @Step("Нажатие на кнопку 'Редактировать новость'")
@@ -62,9 +63,8 @@ public class ControlPanelNews {
         Allure.step("Нажатие на кнопку 'Редактировать новость'");
         onView(allOf(withId(buttonEditNews), hasSibling(withText(title)))).perform(click());
         // Ожидание загрузки формы
-        onView(isRoot()).perform(Utils.waitDisplayed(editNews.getButtonSave(), 5000));
+        onView(isRoot()).perform(Utils.waitDisplayed(editNewsPage.getButtonSave(), 5000));
     }
-
 
 
     @Step("Нажатие на кнопку удаления новости")

@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
 import io.qameta.allure.kotlin.Description;
 import ru.iteco.fmhandroid.ui.data.Utils;
 import ru.iteco.fmhandroid.ui.elements.Toast;
-import ru.iteco.fmhandroid.ui.pageObject.AppBar;
+import ru.iteco.fmhandroid.ui.pageObject.AppBarPage;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
 
@@ -27,7 +27,7 @@ import ru.iteco.fmhandroid.ui.pageObject.MainPage;
 @RunWith(AndroidJUnit4.class)
 public class AuthTest {
     AuthorizationPage authorizationPage = new AuthorizationPage();
-    AppBar appBar = new AppBar();
+    AppBarPage appBarPage = new AppBarPage();
     MainPage mainPage = new MainPage();
     Toast toast = new Toast();
     String validLogin = "login2";
@@ -41,9 +41,9 @@ public class AuthTest {
 
     @Before
     public void setUp() {
-        onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 15000));
+        onView(isRoot()).perform(Utils.waitDisplayed(appBarPage.getAppBarFragmentMain(), 15000));
         if (mainPage.isDisplayedButtonProfile()) {
-            appBar.logOut(); //Выход из аккаунта
+            appBarPage.logOut(); //Выход из аккаунта
         }
         authorizationPage.visibilityAuth(); // Проверка видимости экрана 'Авторизация'
 

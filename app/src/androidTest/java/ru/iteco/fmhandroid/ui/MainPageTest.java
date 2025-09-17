@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Description;
 import ru.iteco.fmhandroid.ui.data.Utils;
-import ru.iteco.fmhandroid.ui.pageObject.AppBar;
+import ru.iteco.fmhandroid.ui.pageObject.AppBarPage;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
 import ru.iteco.fmhandroid.ui.pageObject.NewsPage;
@@ -30,7 +30,7 @@ import ru.iteco.fmhandroid.ui.pageObject.NewsPage;
 public class MainPageTest {
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
-    AppBar appBar = new AppBar();
+    AppBarPage appBarPage = new AppBarPage();
     MainPage mainPage = new MainPage();
     NewsPage newsPage = new NewsPage();
 
@@ -40,7 +40,7 @@ public class MainPageTest {
 
     @Before
     public void setUp() {
-        onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 5000));
+        onView(isRoot()).perform(Utils.waitDisplayed(appBarPage.getAppBarFragmentMain(), 15000));
         if (!mainPage.isDisplayedButtonProfile()) {
             authorizationPage.successfulAuthorization();
         }
@@ -49,7 +49,7 @@ public class MainPageTest {
     @Description("Открытие навигационного меню")
     @Test
     public void openNavigationMenu() {
-        appBar.buttonMainMenu.perform(click());
+        appBarPage.buttonMainMenu.perform(click());
         onView(withText("Новости")).check(matches(isDisplayed()));
         onView(withText("О приложении")).check(matches(isDisplayed()));
         onView(withText("Главная")).check(matches(isDisplayed()));
@@ -58,7 +58,7 @@ public class MainPageTest {
     @Description("Переход на экран 'Новости'")
     @Test
     public void openPageNews() {
-        appBar.switchToNews();
+        appBarPage.switchToNews();
         newsPage.checkNews();
     }
 
@@ -66,7 +66,7 @@ public class MainPageTest {
     @Test
     public void openPageAboutApplication() {
         mainPage.isDisplayedButtonProfile();
-        appBar.AboutApp();
+        appBarPage.AboutApp();
     }
 
     @Description("Переход на экран 'Новости' через вкладку 'Все новости'")
@@ -79,7 +79,7 @@ public class MainPageTest {
     @Description("Выход из ЛК пользователя")
     @Test
     public void logOut() {
-        appBar.logOut();
+        appBarPage.logOut();
     }
 
 

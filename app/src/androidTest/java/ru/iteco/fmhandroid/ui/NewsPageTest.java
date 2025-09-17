@@ -15,12 +15,12 @@ import org.junit.runner.RunWith;
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Description;
 import ru.iteco.fmhandroid.ui.data.Utils;
-import ru.iteco.fmhandroid.ui.pageObject.AppBar;
+import ru.iteco.fmhandroid.ui.pageObject.AppBarPage;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
-import ru.iteco.fmhandroid.ui.pageObject.ControlPanelNews;
+import ru.iteco.fmhandroid.ui.pageObject.ControlPanelPage;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
 import ru.iteco.fmhandroid.ui.pageObject.NewsPage;
-import ru.iteco.fmhandroid.ui.pageObject.ThematicArticle;
+import ru.iteco.fmhandroid.ui.pageObject.ThematicArticlePage;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
@@ -29,11 +29,11 @@ public class NewsPageTest {
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
     NewsPage newsPage = new NewsPage();
-    AppBar appBar = new AppBar();
+    AppBarPage appBarPage = new AppBarPage();
     MainPage mainPage = new MainPage();
-    ControlPanelNews controlPanelNews = new ControlPanelNews();
+    ControlPanelPage controlPanelPage = new ControlPanelPage();
 
-    ThematicArticle thematicArticle = new ThematicArticle();
+    ThematicArticlePage thematicArticlePage = new ThematicArticlePage();
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -41,7 +41,7 @@ public class NewsPageTest {
 
     @Before
     public void setUp() {
-        Espresso.onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 10000));
+        Espresso.onView(isRoot()).perform(Utils.waitDisplayed(appBarPage.getAppBarFragmentMain(), 15000));
         if (!mainPage.isDisplayedButtonProfile()) {
             authorizationPage.successfulAuthorization();
         }
@@ -50,29 +50,29 @@ public class NewsPageTest {
     @Description("Сортировка новостей")
     @Test
     public void sortingNews() {
-        appBar.switchToNews();
+        appBarPage.switchToNews();
         newsPage.buttonSortingNews();
     }
 
     @Description("Открытие формы 'Фильтровать новости'")
     @Test
     public void openFormFilterNews() {
-        appBar.switchToNews();
-        controlPanelNews.openFormFilterNews();
+        appBarPage.switchToNews();
+        controlPanelPage.openFormFilterNews();
     }
 
     @Description("Открытие раздела 'Панель управления'")
     @Test
     public void openControlPanel() {
-        appBar.switchToNews();
+        appBarPage.switchToNews();
         newsPage.switchControlPanelNews();
     }
 
     @Description("Переход на экран 'Главная', через навигационное меню")
     @Test
     public void openPageMain() {
-        appBar.switchToNews();
-        appBar.pageMain();
+        appBarPage.switchToNews();
+        appBarPage.pageMain();
         mainPage.isDisplayedButtonProfile();
     }
 
@@ -81,15 +81,15 @@ public class NewsPageTest {
     @Description("Переход на экран 'О приложении' через навигационное меню")
     @Test
     public void openPageAboutApplication() {
-        appBar.switchToNews();
-        appBar.AboutApp();
+        appBarPage.switchToNews();
+        appBarPage.AboutApp();
     }
 
     @Description("Открытие экрана 'Главное - жить любя'")
     @Test
     public void shouldOpenPageWithThematicArticles() {
-        appBar.pageOurMission();
-        thematicArticle.textScreenCheckIsDisplayed();
+        appBarPage.pageOurMission();
+        thematicArticlePage.textScreenCheckIsDisplayed();
     }
 
 }

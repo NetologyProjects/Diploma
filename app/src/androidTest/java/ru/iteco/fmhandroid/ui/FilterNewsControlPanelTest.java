@@ -15,11 +15,11 @@ import org.junit.runner.RunWith;
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Description;
 import ru.iteco.fmhandroid.ui.data.Utils;
-import ru.iteco.fmhandroid.ui.pageObject.AppBar;
+import ru.iteco.fmhandroid.ui.pageObject.AppBarPage;
 import ru.iteco.fmhandroid.ui.pageObject.AuthorizationPage;
-import ru.iteco.fmhandroid.ui.pageObject.ControlPanelNews;
+import ru.iteco.fmhandroid.ui.pageObject.ControlPanelPage;
 import ru.iteco.fmhandroid.ui.pageObject.CreateNewsPage;
-import ru.iteco.fmhandroid.ui.pageObject.FilterNews;
+import ru.iteco.fmhandroid.ui.pageObject.FilterNewsPage;
 import ru.iteco.fmhandroid.ui.pageObject.MainPage;
 import ru.iteco.fmhandroid.ui.pageObject.NewsPage;
 
@@ -27,13 +27,13 @@ import ru.iteco.fmhandroid.ui.pageObject.NewsPage;
 @RunWith(AllureAndroidJUnit4.class)
 public class FilterNewsControlPanelTest {
 
-    AppBar appBar = new AppBar();
-    FilterNews filterNews = new FilterNews();
+    AppBarPage appBarPage = new AppBarPage();
+    FilterNewsPage filterNewsPage = new FilterNewsPage();
     NewsPage newsPage = new NewsPage();
     MainPage mainPage = new MainPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     CreateNewsPage createNewsPage = new CreateNewsPage();
-    ControlPanelNews controlPanelNews = new ControlPanelNews();
+    ControlPanelPage controlPanelPage = new ControlPanelPage();
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -41,33 +41,32 @@ public class FilterNewsControlPanelTest {
 
     @Before
     public void setUp() {
-        Espresso.onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 5000));
+        Espresso.onView(isRoot()).perform(Utils.waitDisplayed(appBarPage.getAppBarFragmentMain(), 15000));
         if (!mainPage.isDisplayedButtonProfile()) {
             authorizationPage.successfulAuthorization();
         }
     }
 
-    // тест падает с ошибкой view.getVisibility() was <GONE>
     @Description("Фильтрация новостей с активными чек-боксами")
     @Test
     public void filterNewsWithCheckBoxes() throws InterruptedException {
         String title = "Test222";
         String category = "Массаж";
 
-        appBar.switchToNews();
+        appBarPage.switchToNews();
         newsPage.switchControlPanelNews();
-        controlPanelNews.addNews();
+        controlPanelPage.addNews();
         createNewsPage.creatingTestNews(title, category); // Создание тестовой записи
-        controlPanelNews.openFormFilterNews();
-        filterNews.addCategoryFilter(category);
-        filterNews.setDateFromFilter(Utils.currentDate());
-        filterNews.setDateToFilter(Utils.currentDate());
-        filterNews.confirmFilter();
+        controlPanelPage.openFormFilterNews();
+        filterNewsPage.setCategoryFilter(category);
+        filterNewsPage.setDateFromFilter(Utils.currentDate());
+        filterNewsPage.setDateToFilter(Utils.currentDate());
+        filterNewsPage.confirmFilter();
 
         Thread.sleep(100);
-        controlPanelNews.searchNewsWithTitle(title);
+        controlPanelPage.searchNewsWithTitle(title);
 
-        controlPanelNews.deleteNews(title);         // Удаление созданной новости
+        controlPanelPage.deleteNews(title);         // Удаление созданной новости
     }
 
     @Description("Фильтрация новостей c неактивным чек-боксом")
@@ -76,33 +75,33 @@ public class FilterNewsControlPanelTest {
         String title = "Test333";
         String category = "Массаж";
 
-        appBar.switchToNews();
+        appBarPage.switchToNews();
         newsPage.switchControlPanelNews();
-        controlPanelNews.addNews();
+        controlPanelPage.addNews();
         createNewsPage.creatingTestNews(title, category); // Создание тестовой записи
-        controlPanelNews.openFormFilterNews();
-        filterNews.addCategoryFilter(category);
-        filterNews.setDateFromFilter(Utils.currentDate());
-        filterNews.setDateToFilter(Utils.currentDate());
-        filterNews.setCheckBoxActive(); // Изменить чекбокс (отключить активные)
-        filterNews.confirmFilter();
+        controlPanelPage.openFormFilterNews();
+        filterNewsPage.setCategoryFilter(category);
+        filterNewsPage.setDateFromFilter(Utils.currentDate());
+        filterNewsPage.setDateToFilter(Utils.currentDate());
+        filterNewsPage.setCheckBoxActive(); // Изменить чекбокс (отключить активные)
+        filterNewsPage.confirmFilter();
 
         // Поиск новости в неактивных (должно быть ненайдено)
         Thread.sleep(100);
-        controlPanelNews.checkDoesNotExistNews(title);
+        controlPanelPage.checkDoesNotExistNews(title);
 
-        controlPanelNews.openFormFilterNews();
-        filterNews.addCategoryFilter(category);
-        filterNews.setDateFromFilter(Utils.currentDate());
-        filterNews.setDateToFilter(Utils.currentDate());
-        filterNews.setCheckBoxInActive(); // Изменить чекбокс (отключить неактивные)
-        filterNews.confirmFilter();
+        controlPanelPage.openFormFilterNews();
+        filterNewsPage.setCategoryFilter(category);
+        filterNewsPage.setDateFromFilter(Utils.currentDate());
+        filterNewsPage.setDateToFilter(Utils.currentDate());
+        filterNewsPage.setCheckBoxInActive(); // Изменить чекбокс (отключить неактивные)
+        filterNewsPage.confirmFilter();
 
         // Поиск новости в активных (должно быть найдено)
         Thread.sleep(100);
-        controlPanelNews.searchNewsWithTitle(title);
+        controlPanelPage.searchNewsWithTitle(title);
 
-        controlPanelNews.deleteNews(title);         // Удаление созданной новости
+        controlPanelPage.deleteNews(title);         // Удаление созданной новости
     }
 
 }

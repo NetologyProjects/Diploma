@@ -12,7 +12,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.endsWith;
 
 import androidx.test.espresso.ViewInteraction;
 
@@ -23,7 +22,7 @@ import ru.iteco.fmhandroid.ui.data.Utils;
 
 public class AuthorizationPage {
     MainPage mainPage = new MainPage();
-    AppBar appBar = new AppBar();
+    AppBarPage appBarPage = new AppBarPage();
 
     String validLogin = "login2";
     String validPassword = "password2";
@@ -73,7 +72,7 @@ public class AuthorizationPage {
         inputInFieldLogin(validLogin);
         inputInFieldPassword(validPassword);
         pressButton();
-        onView(isRoot()).perform(Utils.waitDisplayed(appBar.getPressProfile(), 5000));
+        onView(isRoot()).perform(Utils.waitDisplayed(appBarPage.getPressProfile(), 5000));
         mainPage.checkNews();
     }
 }

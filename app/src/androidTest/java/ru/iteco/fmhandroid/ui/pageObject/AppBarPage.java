@@ -16,10 +16,9 @@ import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.data.Utils;
 
-public class AppBar {
-    AboutAppPage aboutAppPage = new AboutAppPage();
+public class AppBarPage {
     MainPage mainPage = new MainPage();
-    ThematicArticle thematicArticle = new ThematicArticle();
+    ThematicArticlePage thematicArticlePage = new ThematicArticlePage();
     NewsPage newsPage = new NewsPage();
     int appBarFragmentMain = R.id.container_custom_app_bar_include_on_fragment_main;
 
@@ -32,6 +31,9 @@ public class AppBar {
     public int getPressProfile() {
         return pressProfile;
     }
+
+    int buttonBack = R.id.about_back_image_button;
+
 
     public ViewInteraction mainMenuNews = onView(
             allOf(withId(android.R.id.title), withText("Новости")));
@@ -69,7 +71,7 @@ public class AppBar {
         buttonMainMenu.perform(click());
         mainMenuAboutApp.check(matches(isDisplayed()));
         mainMenuAboutApp.perform(click());
-        onView(isRoot()).perform(Utils.waitDisplayed(aboutAppPage.getButtonBack(), 5000));
+        onView(isRoot()).perform(Utils.waitDisplayed(buttonBack, 5000));
     }
 
     @Step("Переход на экран 'Главная'")
@@ -87,6 +89,6 @@ public class AppBar {
         Allure.step("Переход на экран цитат");
         buttonOurMission.check(matches(isDisplayed()));
         buttonOurMission.perform(click());
-        onView(isRoot()).perform(Utils.waitDisplayed(thematicArticle.getTextScreen(), 5000));
+        onView(isRoot()).perform(Utils.waitDisplayed(thematicArticlePage.getTextScreen(), 5000));
     }
 }
