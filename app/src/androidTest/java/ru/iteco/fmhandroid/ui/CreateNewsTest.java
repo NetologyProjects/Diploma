@@ -40,10 +40,8 @@ public class CreateNewsTest {
             new ActivityScenarioRule<>(AppActivity.class);
 
     @Before
-    public void setUp() throws InterruptedException {
-        Thread.sleep(5000);
+    public void setUp() {
         onView(isRoot()).perform(Utils.waitDisplayed(appBar.getAppBarFragmentMain(), 15000));
-
         if (!mainPage.isDisplayedButtonProfile()) {
             authorizationPage.successfulAuthorization();
         }
@@ -111,8 +109,8 @@ public class CreateNewsTest {
         createNewsPage.pressSave();
 
         try {
-            controlPanelNews.checkDoesNotExistNews(title); // Проверка, что новость не создана
-            //controlPanelNews.searchNewsWithTitle(title); // Проверка, что новость создана
+            //controlPanelNews.checkDoesNotExistNews(title); // Проверка, что новость не создана
+            controlPanelNews.searchNewsWithTitle(title); // Проверка, что новость создана
         } finally {
             controlPanelNews.deleteNews(title);         // Удаление созданной новости
         }

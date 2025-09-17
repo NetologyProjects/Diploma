@@ -30,7 +30,6 @@ public class CreateNewsPage {
     public int getButtonSave() {
         return buttonSave;
     }
-    ControlPanelNews controlPanelNews = new ControlPanelNews();
 
     @Step("Ввод в поле категории")
     public void addCategory(String text) {
