@@ -26,7 +26,6 @@ import ru.iteco.fmhandroid.ui.pageObject.ThematicArticlePage;
 @RunWith(AllureAndroidJUnit4.class)
 public class NewsPageTest {
 
-
     AuthorizationPage authorizationPage = new AuthorizationPage();
     NewsPage newsPage = new NewsPage();
     AppBarPage appBarPage = new AppBarPage();

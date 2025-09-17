@@ -26,7 +26,6 @@ import ru.iteco.fmhandroid.ui.pageObject.NewsPage;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
-
 public class MainPageTest {
 
     AuthorizationPage authorizationPage = new AuthorizationPage();
