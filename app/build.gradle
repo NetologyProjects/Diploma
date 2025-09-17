@@ -9,14 +9,21 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 android {
     compileSdkVersion 32
     buildToolsVersion "30.0.3"
+    testOptions {
+        animationsDisabled = true
+    }
 
     defaultConfig {
         applicationId "ru.iteco.fmhandroid"
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 32
         versionCode 14
         versionName "1.0.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -27,6 +34,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }

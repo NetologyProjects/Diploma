@@ -73,6 +73,8 @@ public class CreateNewsPage {
         onView(isRoot()).perform(Utils.waitDisplayed(buttonSave, 5000));
         save.check(matches(isDisplayed()));
         save.perform(scrollTo()).perform(click());
+        // Ожидаем загрузку панели управления
+        //onView(isRoot()).perform(Utils.waitDisplayed(controlPanelPage.getButtonAddNews(), 5000));
     }
 
     @Step("Проверка, что осталась открыта форма 'Создания новости'")

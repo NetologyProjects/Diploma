@@ -1,0 +1,117 @@
+{
+    "name": "authorizationWithEmptyLogin",
+    "start": 1758096549890,
+    "stop": 1758096554331,
+    "stage": "finished",
+    "description": "Авторизация с пустым логином",
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "Проверка видимости экрана 'Авторизация'",
+            "start": 1758096553348,
+            "stop": 1758096553348,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Ввод в поле Пароль",
+            "start": 1758096553353,
+            "stop": 1758096553353,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Нажатие на кнопку входа",
+            "start": 1758096553378,
+            "stop": 1758096553378,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Проверка тост-сообщения 'Логин и пароль не могут быть пустыми'",
+            "start": 1758096553797,
+            "stop": 1758096553797,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "265340c7-f1b2-43b0-b3a2-48c8471eee77",
+    "historyId": "95b7b455a779acfa3a90725c0a5f8f3",
+    "fullName": "ru.iteco.fmhandroid.ui.AuthTest.authorizationWithEmptyLogin",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.iteco.fmhandroid.ui"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.iteco.fmhandroid.ui.AuthTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "authorizationWithEmptyLogin"
+        },
+        {
+            "name": "suite",
+            "value": "ru.iteco.fmhandroid.ui.AuthTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: androidx.test.runner.AndroidJUnitRunner(1856)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

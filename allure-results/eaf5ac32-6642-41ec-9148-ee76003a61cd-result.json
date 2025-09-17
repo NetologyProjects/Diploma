@@ -1,0 +1,165 @@
+{
+    "name": "filterNewsDateInPast",
+    "start": 1758096685591,
+    "stop": 1758096691271,
+    "stage": "finished",
+    "description": "Отображение сообщения 'Здесь пока ничего нет' (период в будущем)",
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "Переход на экран 'Новости'",
+            "start": 1758096689011,
+            "stop": 1758096689011,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Нажатие на кнопку фильтрации новостей",
+            "start": 1758096689829,
+            "stop": 1758096689829,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Установка категории День рождения",
+            "start": 1758096690269,
+            "stop": 1758096690269,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Установка начальной даты",
+            "start": 1758096690336,
+            "stop": 1758096690336,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Установка конечной даты",
+            "start": 1758096690364,
+            "stop": 1758096690364,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Нажать на кнопку 'Фильтровать",
+            "start": 1758096690397,
+            "stop": 1758096690398,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Проверка видимости элемента с текстом 'Здесь пока ничего нет'",
+            "start": 1758096690776,
+            "stop": 1758096690776,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "eaf5ac32-6642-41ec-9148-ee76003a61cd",
+    "historyId": "bf05451ac53184fb8f6594d5232a23da",
+    "fullName": "ru.iteco.fmhandroid.ui.FilterNewsTest.filterNewsDateInPast",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.iteco.fmhandroid.ui"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.iteco.fmhandroid.ui.FilterNewsTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "filterNewsDateInPast"
+        },
+        {
+            "name": "suite",
+            "value": "ru.iteco.fmhandroid.ui.FilterNewsTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: androidx.test.runner.AndroidJUnitRunner(1856)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

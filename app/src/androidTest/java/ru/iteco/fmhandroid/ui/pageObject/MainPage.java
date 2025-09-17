@@ -19,19 +19,17 @@ import ru.iteco.fmhandroid.ui.data.Utils;
 public class MainPage {
     private final int containerNews = R.id.container_list_news_include_on_fragment_main;
     private final int buttonAllNews = R.id.all_news_text_view;
-    public ViewInteraction textViewNewsOnPageMain = onView(withText("Новости"));
     public ViewInteraction allNews = onView(withText("Все новости"));
 
     public int getContainerNews() {
         return containerNews;
     }
 
-    @Step("Проверка видимости 'Новости'")
+    @Step("Проверка видимости 'Новости' на главном экране")
     public void checkNews() {
-        Allure.step("Проверка видимости элемента с текстом Новости");
-        onView(isRoot()).perform(Utils.waitDisplayed(containerNews, 5000)); //проверка с ожиданием 5 сек.
-
-        textViewNewsOnPageMain.check(matches(withText("Новости")));
+        Allure.step("Проверка видимости 'Новости' на главном экране");
+        onView(isRoot()).perform(Utils.waitDisplayed(containerNews, 5000));
+        onView(withText("Новости")).check(matches(withText("Новости")));
     }
 
     @Step("Нажатие на кнопку 'Все новости'")

@@ -1,0 +1,85 @@
+{
+    "name": "openPageMain",
+    "start": 1758096724799,
+    "stop": 1758096730561,
+    "stage": "finished",
+    "description": "Переход на экран 'Главная', через навигационное меню",
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "Переход на экран 'Новости'",
+            "start": 1758096728779,
+            "stop": 1758096728779,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Переход на экран 'Главная'",
+            "start": 1758096729464,
+            "stop": 1758096729464,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "9da8ec8f-f6fa-4584-8206-1e08903d9eaf",
+    "historyId": "4351832263cf417a033b97adca7d6fc8",
+    "fullName": "ru.iteco.fmhandroid.ui.NewsPageTest.openPageMain",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.iteco.fmhandroid.ui"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.iteco.fmhandroid.ui.NewsPageTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "openPageMain"
+        },
+        {
+            "name": "suite",
+            "value": "ru.iteco.fmhandroid.ui.NewsPageTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: androidx.test.runner.AndroidJUnitRunner(1856)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

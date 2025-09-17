@@ -17,12 +17,9 @@ import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.data.Utils;
 
-public class EditNews {
+public class EditNewsPage {
     private final ViewInteraction editCategory = onView(withId(R.id.news_item_category_text_auto_complete_text_view));
     private final ViewInteraction editTitle = onView(withId(R.id.news_item_title_text_input_edit_text));
-    private final ViewInteraction editTime = onView(withId(R.id.news_item_publish_time_text_input_edit_text));
-    private final ViewInteraction editDate = onView(withId(R.id.news_item_publish_date_text_input_edit_text));
-    private final ViewInteraction editDescription = onView(withId(R.id.news_item_description_text_input_edit_text));
     private final ViewInteraction save = onView(withId(R.id.save_button));
 
     private final int buttonSave = R.id.save_button;
@@ -31,12 +28,6 @@ public class EditNews {
         return buttonSave;
     }
 
-    @Step("Редактирование значения в поле 'Категория'")
-    public void editCategory(String text) {
-        Allure.step("Редактирование значения в поле 'Категория'");
-        editCategory.check(matches(isDisplayed()));
-        editCategory.perform(replaceText(text), closeSoftKeyboard());
-    }
 
     @Step("Редактирование значения в поле заголовка")
     public void editTitle(String text) {

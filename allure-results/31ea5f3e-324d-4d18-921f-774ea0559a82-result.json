@@ -1,0 +1,149 @@
+{
+    "name": "filterNewsByDateTo",
+    "start": 1758096691289,
+    "stop": 1758096696699,
+    "stage": "finished",
+    "description": "Фильтрация новостей по дате ДО",
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "Переход на экран 'Новости'",
+            "start": 1758096694707,
+            "stop": 1758096694708,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Нажатие на кнопку фильтрации новостей",
+            "start": 1758096695437,
+            "stop": 1758096695438,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Установка категории День рождения",
+            "start": 1758096695812,
+            "stop": 1758096695812,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Установка конечной даты",
+            "start": 1758096695835,
+            "stop": 1758096695835,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Нажать на кнопку 'Фильтровать",
+            "start": 1758096695859,
+            "stop": 1758096695860,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Проверка отображения ошибки",
+            "start": 1758096696212,
+            "stop": 1758096696212,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "31ea5f3e-324d-4d18-921f-774ea0559a82",
+    "historyId": "f4895b37ca5bf716d56cc06f27199b7b",
+    "fullName": "ru.iteco.fmhandroid.ui.FilterNewsTest.filterNewsByDateTo",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.iteco.fmhandroid.ui"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.iteco.fmhandroid.ui.FilterNewsTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "filterNewsByDateTo"
+        },
+        {
+            "name": "suite",
+            "value": "ru.iteco.fmhandroid.ui.FilterNewsTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: androidx.test.runner.AndroidJUnitRunner(1856)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

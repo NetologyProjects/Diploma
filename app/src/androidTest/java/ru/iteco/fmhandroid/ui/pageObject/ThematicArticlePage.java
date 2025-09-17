@@ -10,7 +10,7 @@ import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Step;
 import ru.iteco.fmhandroid.R;
 
-public class ThematicArticle {
+public class ThematicArticlePage {
 
     private final int textScreen = R.id.our_mission_title_text_view;
     String text = "Главное - жить любя";

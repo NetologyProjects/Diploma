@@ -9,7 +9,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 
@@ -19,13 +18,10 @@ import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.data.Utils;
 
 public class NewsPage {
-    ControlPanelNews controlPanelNews = new ControlPanelNews();
+    ControlPanelPage controlPanelPage = new ControlPanelPage();
     private final int buttonSortingNews = R.id.sort_news_material_button;
-    private final int buttonControlPanelNews = R.id.edit_news_material_button;
+    private final int buttonControlPanel = R.id.edit_news_material_button;
     private final int containerPageNews = R.id.container_list_news_include;
-    public ViewInteraction textViewNewsOnPageNews = onView(withText("Новости"));
-
-    private final int containerControlPanel = R.id.layout_background_image_view;
 
     public int getContainerNews() {
         return containerPageNews;
@@ -34,8 +30,8 @@ public class NewsPage {
     @Step("Проверка видимости 'Новости'")
     public void checkNews() {
         Allure.step("Проверка видимости элемента с текстом 'Новости'");
-        onView(withId(containerPageNews)).check(matches(ViewMatchers.isDisplayed()));
-        textViewNewsOnPageNews.check(matches(withText("Новости")));
+        onView(isRoot()).perform(Utils.waitDisplayed(containerPageNews, 5000));
+        onView(withText("Новости")).check(matches(withText("Новости")));
     }
 
     @Step("Нажатие на кнопку 'Сортировать' новости")
@@ -52,21 +48,13 @@ public class NewsPage {
     public void switchControlPanelNews() {
         Allure.step("Переход на 'Панель управления'");
         //  Переход на страницу с панелью управления
-        onView(isRoot()).perform(Utils.waitDisplayed(buttonControlPanelNews, 10000));
+        onView(isRoot()).perform(Utils.waitDisplayed(buttonControlPanel, 5000));
         // Проверяем, что элемент видно и что можно нажать
-        onView(withId(buttonControlPanelNews)).check(matches(allOf(isDisplayed(), isClickable())));
+        onView(withId(buttonControlPanel)).check(matches(allOf(isDisplayed(), isClickable())));
         // Клик по элементу
-        onView(withId(buttonControlPanelNews)).perform(ViewActions.click());
+        onView(withId(buttonControlPanel)).perform(ViewActions.click());
         // Ожидаем загрузку панели управления
-        onView(isRoot()).perform(Utils.waitDisplayed(controlPanelNews.getButtonAddNews(), 10000));
+        onView(isRoot()).perform(Utils.waitDisplayed(controlPanelPage.getButtonAddNews(), 5000));
     }
 
-    @Step("Проверка видимости элемента с текстом 'Панель управления'")
-    public void visibilityOfControlPanelLabel() {
-        Allure.step("Проверка видимости элемента с текстом 'Панель упараления'");
-        onView(withId(containerControlPanel)).check(matches(ViewMatchers.isDisplayed()));
-        onView(withId(R.id.layout_background_image_view))
-                .check(matches(isDisplayed()));
-        onView(isRoot()).perform(Utils.waitDisplayed(containerControlPanel, 5000));
-    }
 }
